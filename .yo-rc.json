@@ -1,0 +1,9 @@
+{
+  "generator-angm": {
+    "appName": "mmwe",
+    "angularCookies": true,
+    "angularAnimate": true,
+    "angularSanitize": true,
+    "angularMaterial": true
+  }
+}

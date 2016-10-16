@@ -1,0 +1,58 @@
+<!-- as a Dom element -->
+<!-- as an attribute -->
+
+<div class="md-padding" flex layout="row" layout-fill ng-if="ctrl.editingPackage">
+
+
+	<tree-ecore-editor flex="50" layout="column" tree-ecore-element="ctrl.editingPackage"
+					   selected-element="ctrl.selectedElement">
+	</tree-ecore-editor>
+
+
+	<md-card flex="50" layout="column">
+		<md-toolbar>
+			<div class="md-toolbar-tools">
+				<ng-md-icon icon="tab"></ng-md-icon>
+				&nbsp;
+				<h2>
+					<span>Panels</span>
+				</h2>
+				<span flex></span>
+			</div>
+		</md-toolbar>
+		<md-tabs md-dynamic-height md-border-bottom>
+			<md-tab label="Properties">
+				<md-content layout="column">
+					<tree-ecore-properties-editor ng-if="ctrl.selectedElement"
+												  root-tree-ecore-element="ctrl.editingPackage"
+												  tree-ecore-element="ctrl.selectedElement">
+
+					</tree-ecore-properties-editor>
+				</md-content>
+
+
+			</md-tab>
+			<md-tab label="Progress">
+
+			</md-tab>
+			<md-tab label="Console">
+				<md-content layout="column">
+					<console-panel>
+
+					</console-panel>
+				</md-content>
+			</md-tab>
+
+			<!--md-tab label="JSON">
+				<pre>
+  					{{ctrl.selectedElement.values | json}}
+				</pre>
+			</md-tab-->
+
+		</md-tabs>
+
+
+	</md-card>
+
+</div>
+
