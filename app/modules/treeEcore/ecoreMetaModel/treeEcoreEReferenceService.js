@@ -23,7 +23,7 @@
 			var elmt = {
 				id: rfc4122.v4(),
 				values: ecoreElement.values,
-				_originalEcoreElement: ecoreElement
+				//_originalEcoreElement: ecoreElement
 			};
 			elmt._type = ECORE_TYPES.EReference;
 			elmt._parent = treeParent;

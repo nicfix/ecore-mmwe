@@ -23,7 +23,7 @@
 			var elmt = {
 				id: rfc4122.v4(),
 				values: ecoreElement.values,
-				_originalEcoreElement: ecoreElement
+				//_originalEcoreElement: ecoreElement
 			};
 
 			elmt._type = ECORE_TYPES.EPackage;
@@ -39,6 +39,25 @@
 
 		service.doTreeToEcore = function (treeElement, ecoreParent) {
 
+
+			var ecoreVersion = Ecore.EPackage.create({
+				name: treeElement.values.name,
+				nsURI: treeElement.values.nsURI,
+				nxPrefix: treeElement.values.nxPrefix
+			});
+
+
+			angular.forEach(ecoreVersion.children, function (child) {
+				var ecoreChild = TreeEcoreModelsRepoService
+					.getStrategyForTreeEcoreElement(child)
+					.treeToEcore(child, ecoreVersion);
+
+				ecoreVersion
+					.get('eClassifiers')
+					.add(ecoreChild);
+			});
+
+			return ecoreVersion;
 		};
 
 		service.doGetFieldType = function (treeElement, field_name, model_base_package) {
@@ -50,7 +69,6 @@
 		};
 
 		service.doBuildNew = function (treeParent) {
-
 			var ecoreVersion = Ecore.EPackage.create({
 				name: '',
 				eClassifiers: []

@@ -17,7 +17,7 @@
 		var classes_values = [];
 
 		service.doGetSupportedChildrenTypes = function () {
-			return [ECORE_TYPES.EReference, ECORE_TYPES.EAttribute]
+			return [ECORE_TYPES.EReference, ECORE_TYPES.EAttribute, ECORE_TYPES.EOperation]
 		};
 
 
@@ -26,7 +26,7 @@
 			var elmt = {
 				id: rfc4122.v4(),
 				values: ecoreElement.values,
-				_originalEcoreElement: ecoreElement
+				//_originalEcoreElement: ecoreElement
 			};
 
 			elmt._type = ECORE_TYPES.EClass;
@@ -45,13 +45,27 @@
 				return TreeEcoreModelsRepoService.getStrategyForEcoreElement(c).ecoreToTree(c, elmt);
 			}));
 
-			classes_values.push(elmt)
+			classes_values.push(elmt);
 
 			return elmt;
 		};
 
 		service.doTreeToEcore = function (treeElement, ecoreParent) {
+			var ecoreVersion = Ecore.EClass.create({
+				name: treeElement.values.name
+			});
 
+			ecoreVersion.values = treeElement.values;
+
+			var superTypes = new Ecore.EList(Ecore.EClass);
+
+			angular.forEach(ecoreVersion.values.eSuperTypes, function (item) {
+				superTypes.add(item);
+			});
+
+			ecoreVersion.values.eSuperTypes = superTypes;
+
+			return ecoreVersion;
 		};
 
 		service.doGetFieldType = function (treeElement, field_name, model_base_package) {
@@ -75,5 +89,6 @@
 
 	} // fine service
 
-})();
+})
+();
 

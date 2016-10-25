@@ -12,10 +12,22 @@
 	/* @ngInject */
 	function metaModelRepoService() {
 
+		/**
+		 *
+		 * @type {{}}
+		 */
 		var MAPPING_STRATEGIES = {}
 
+		/**
+		 *
+		 * @type {string}
+		 */
 		var DEFAULT_METAMODEL_ID = 'ECORE';
 
+		/**
+		 *
+		 * @type {{}}
+		 */
 		MAPPING_STRATEGIES[DEFAULT_METAMODEL_ID] = {};
 
 		return {
@@ -49,7 +61,6 @@
 			},
 
 			getStrategyForTreeEcoreElement: function (metaModelID, treeEcoreElement) {
-
 				if (arguments.length == 1) {
 					return this.getStrategy(DEFAULT_METAMODEL_ID, arguments[0]._type);
 				} else {
@@ -70,11 +81,8 @@
 
 				return elements;
 			}
-
-
 		}
-
-	} // fine service
+	}
 
 })();
 

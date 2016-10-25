@@ -5,16 +5,16 @@
 	'use strict';
 
 	angular
-		.module('metaModels')
+		.module('metaModelsEditor')
 		.directive('treeEcorePropertiesEditor', ecorePropertiesEditor);
 
 	/* @ngInject */
-	function ecorePropertiesEditor() {
+	function ecorePropertiesEditor(META_MODELS_EDITOR) {
 		var directive = {
 			bindToController: true,
 			controller: TreeEcorePropertiesEditorController,
 			controllerAs: 'ctrl',
-			templateUrl: '/app/modules/metaModels/treeEcorePropertiesEditor.html',
+			templateUrl: META_MODELS_EDITOR.BASE_PATH + '/treeEcorePropertiesEditor.html',
 			restrict: 'EA',
 			scope: {
 				rootTreeEcoreElement: '=',
@@ -58,7 +58,6 @@
 				'eAnnotations',
 				'eClassifiers',
 				'eSubPackages',
-
 				'eStructuralFeatures',
 				'eOperations',
 				'eAllStructuralFeatures',
@@ -72,8 +71,6 @@
 				'eIDAttribute',
 				'iD',
 				'defaultValueLiteral',
-				//'eSuperTypes',
-				//'eType'
 			]
 
 			var isSupported = true;

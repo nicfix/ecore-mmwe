@@ -29,7 +29,7 @@
 
 		vm.title = "Hello, mmwe!";
 		vm.version = "1.0.0";
-		vm.listFeatures = homeService.getFeaturesList();
+		//vm.listFeatures = homeService.getFeaturesList();
 
 	}
 

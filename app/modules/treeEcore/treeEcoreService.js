@@ -10,31 +10,75 @@
 		.service('treeEcoreService', treeEcoreService)
 		.constant('ECORE_TYPES', {
 
+			/**
+			 *
+			 */
 			EPackage: "EPackage",
 
+			/**
+			 *
+			 */
 			EClass: "EClass",
 
+			/**
+			 *
+			 */
 			EAttribute: "EAttribute",
 
+			/**
+			 *
+			 */
 			EReference: "EReference",
 
+			/**
+			 *
+			 */
+			EOperation: "EOperation",
+
+			/**
+			 *
+			 */
 			EChar: "EChar",
 
+			/**
+			 *
+			 */
 			EString: "EString",
 
+			/**
+			 *
+			 */
 			EInt: "EInt",
 
+			/**
+			 *
+			 */
 			EFloat: "EFloat",
 
+			/**
+			 *
+			 */
 			EDouble: "EDouble",
 
+			/**
+			 *
+			 */
 			EBoolean: "EBoolean",
 
+			/**
+			 *
+			 */
 			EByte: "EByte",
 
+			/**
+			 *
+			 */
 			EDate: "EDate"
 		})
 		.constant('ECORE_TREE_SERVICE_EVENTS', {
+			/**
+			 *
+			 */
 			LOG: 'LOG'
 		})
 
@@ -53,12 +97,12 @@
 	function treeEcoreService(ECORE_TREE_SERVICE_EVENTS,
 							  ECORE_TYPES,
 							  $rootScope,
-							  rfc4122,
 							  TreeEcoreModelsRepoService,
 							  TreeEcoreEPackageService,
 							  TreeEcoreEClassService,
 							  TreeEcoreEReferenceService,
-							  TreeEcoreEAttributeService) {
+							  TreeEcoreEAttributeService,
+							  TreeEcoreEOperationService) {
 
 		var service = this;
 
@@ -115,6 +159,14 @@
 
 		/**
 		 *
+		 * @param treeElement
+		 * @param ecoreParent
+		 * @returns {*}
+		 */
+		service.treeElementToEcoreElement = treeElementToEcoreElement;
+
+		/**
+		 *
 		 * @param treeEcoreElement
 		 * @returns [{*}]
 		 */
@@ -129,7 +181,13 @@
 		 */
 		service.getSupportedFieldValues = getSupportedFieldValues;
 
-
+		/**
+		 *
+		 * @param treeEcoreElement
+		 * @param field_name
+		 * @param metamodel_base_package
+		 * @returns {*|{}}
+		 */
 		service.getFieldType = getFieldType;
 
 		/**
@@ -157,9 +215,22 @@
 		TreeEcoreModelsRepoService.registerStrategy(ECORE_TYPES.EReference, TreeEcoreEReferenceService);
 
 
+		/**
+		 * Strategy for the EReference Ecore type
+		 * @type {{ecoreToTree: Function, treeToEcore: Function}}
+		 */
+		TreeEcoreModelsRepoService.registerStrategy(ECORE_TYPES.EOperation, TreeEcoreEOperationService);
+
+
 		function ecoreElementToTreeElement(ecoreElement, treeParent) {
 			log("Decoding an EcoreElement of type: " + ecoreElement.eClass.values.name);
 			return TreeEcoreModelsRepoService.getStrategyForEcoreElement(ecoreElement).ecoreToTree(ecoreElement, treeParent);
+		}
+
+
+		function treeElementToEcoreElement(treeElement, ecoreParent) {
+			log("Decoding an TreeElement of type: " + treeElement._type);
+			return TreeEcoreModelsRepoService.getStrategyForTreeEcoreElement(treeElement).treeToEcore(treeElement, ecoreParent);
 		}
 
 		function getFieldType(treeEcoreElement, field_name, metamodel_base_package) {
@@ -168,9 +239,7 @@
 		}
 
 		function getSupportedFieldValues(treeEcoreElement, field_name, metamodel_base_package) {
-			//log("Returning getSupportedFieldValues for type: " + treeEcoreElement._type);
 			var elmt_strategy = TreeEcoreModelsRepoService.getStrategyForTreeEcoreElement(treeEcoreElement);
-
 			return elmt_strategy.getSupportedFieldValues(treeEcoreElement, field_name, metamodel_base_package);
 		}
 
@@ -178,15 +247,12 @@
 			var supportedChildrenTypes = [];
 
 			if (angular.isDefined(treeEcoreElement)) {
-				//log("Returning supported TreeEcore children types for type: " + treeEcoreElement._type);
 				var elmt_strategy = TreeEcoreModelsRepoService.getStrategyForTreeEcoreElement(treeEcoreElement);
-
 				if (angular.isDefined(elmt_strategy))
 					supportedChildrenTypes = elmt_strategy.getSupportedChildrenTypes();
 			}
 			return supportedChildrenTypes;
 		}
-
 
 		function buildTreeEcoreElement(element_type, treeParent) {
 			log("Building a new treeEcoreElement for type: " + element_type);
@@ -194,7 +260,6 @@
 		}
 
 		function log(message) {
-
 			/**
 			 * Broadcasting the message to all intrested subcomponents
 			 */
@@ -202,7 +267,7 @@
 				date: new Date(),
 				source: 'EcoreTreeService',
 				message: message
-			})
+			});
 
 			if (service.DEBUG == true)
 				console.log("EcoreTreeService :> " + message)

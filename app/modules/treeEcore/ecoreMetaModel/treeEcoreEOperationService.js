@@ -6,11 +6,11 @@
 
 	angular
 		.module('treeEcore')
-		.service('TreeEcoreEAttributeService', TreeEcoreEAttributeService);
+		.service('TreeEcoreEOperationService', TreeEcoreEOperationService);
 
 
 	/* @ngInject */
-	function TreeEcoreEAttributeService(ECORE_TYPES, TreeEcoreElementMixinService, TreeEcoreModelsRepoService, rfc4122) {
+	function TreeEcoreEOperationService(ECORE_TYPES, TreeEcoreElementMixinService, TreeEcoreModelsRepoService, rfc4122) {
 
 		var service = this;
 		service = angular.extend(service, TreeEcoreElementMixinService);
@@ -59,10 +59,10 @@
 			var elmt = {
 				id: rfc4122.v4(),
 				values: ecoreElement.values,
-				_originalEcoreElement: ecoreElement
+				//_originalEcoreElement: ecoreElement
 			};
 
-			elmt._type = ECORE_TYPES.EAttribute;
+			elmt._type = ECORE_TYPES.EOperation;
 			elmt._parent = treeParent;
 
 
@@ -90,11 +90,7 @@
 		};
 
 		service.doBuildNew = function (treeParent) {
-			var ecoreVersion = Ecore.EAttribute.create({
-				name: '',
-				upperBound: 1,
-				eType: Ecore.EString
-			});
+			var ecoreVersion = Ecore.EOperation.create();
 			return service.ecoreToTree(ecoreVersion, treeParent);
 		};
 

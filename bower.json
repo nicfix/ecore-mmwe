@@ -28,7 +28,8 @@
     "components-font-awesome": "^4.6.3",
     "angular-fontawesome": "^1.0.0",
     "json-tree": "^0.1.5",
-    "angular-uuid-service": "^0.1.0"
+    "angular-uuid-service": "^0.1.0",
+    "sax": "*"
   },
   "resolutions": {
     "angular": "1.5.8"

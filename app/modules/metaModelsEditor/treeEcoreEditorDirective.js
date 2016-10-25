@@ -6,16 +6,16 @@
 	'use strict';
 
 	angular
-		.module('metaModels')
+		.module('metaModelsEditor')
 		.directive('treeEcoreEditor', treeEcoreEditor);
 
 	/* @ngInject */
-	function treeEcoreEditor() {
+	function treeEcoreEditor(META_MODELS_EDITOR) {
 		var directive = {
 			bindToController: true,
 			controller: TreeEcoreEditorController,
 			controllerAs: 'ctrl',
-			templateUrl: '/app/modules/metaModels/treeEcoreEditor.html',
+			templateUrl: META_MODELS_EDITOR.BASE_PATH + '/treeEcoreEditor.html',
 			restrict: 'EA',
 			scope: {
 				treeEcoreElement: '=',
@@ -28,7 +28,7 @@
 	} // fine direttiva
 
 	/* @ngInject */
-	function TreeEcoreEditorController($scope, ecoreTreeService, ECORE_TYPES, $mdDialog) {
+	function TreeEcoreEditorController($scope, ecoreTreeService, ECORE_TYPES, $mdDialog, $rootScope, META_MODELS_EDITOR) {
 
 		var self = this;
 
@@ -110,7 +110,6 @@
 			$mdDialog.hide();
 			self.expandedElements.push(self.selectedElement);
 			self.selectedElement = children;
-
 		}
 
 		function getSupportedChildrenTypes() {
@@ -123,6 +122,7 @@
 
 		$scope.$watch('ctrl.selectedElement', function (newVal) {
 			self.supportedChildrenTypes = ecoreTreeService.getSupportedChildrenTypes(self.selectedElement);
+			notifyUpdate();
 		})
 
 		self.showPrerenderedDialog = function (ev) {
@@ -152,6 +152,11 @@
 
 			}
 		};
+
+
+		function notifyUpdate() {
+			$rootScope.$broadcast(META_MODELS_EDITOR.EVENTS.MODEL_UPDATE_EVENT);
+		}
 
 
 	}

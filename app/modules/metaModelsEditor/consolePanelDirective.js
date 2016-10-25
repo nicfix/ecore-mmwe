@@ -5,16 +5,16 @@
 	'use strict';
 
 	angular
-		.module('metaModels')
+		.module('metaModelsEditor')
 		.directive('consolePanel', consolePanelDirective);
 
 	/* @ngInject */
-	function consolePanelDirective() {
+	function consolePanelDirective(META_MODELS_EDITOR) {
 		var directive = {
 			bindToController: true,
 			controller: ConsolePanelController,
 			controllerAs: 'ctrl',
-			templateUrl: '/app/modules/metaModels/consolePanel.html',
+			templateUrl: META_MODELS_EDITOR.BASE_PATH + '/consolePanel.html',
 			restrict: 'EA',
 			scope: {}
 		};

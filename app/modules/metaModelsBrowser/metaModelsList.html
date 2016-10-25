@@ -1,0 +1,41 @@
+<!-- as a Dom element -->
+<!-- as an attribute -->
+
+<div class="md-padding" flex layout="row" layout-fill>
+
+	<md-card layout="column" flex>
+		<md-toolbar>
+			<div class="md-toolbar-tools">
+				<ng-md-icon icon="folder"></ng-md-icon>
+				&nbsp;
+				<h2>
+					<span>Available Meta Models</span>
+				</h2>
+				<span flex></span>
+			</div>
+		</md-toolbar>
+
+		<div flex ng-if="ctrl.loading">
+			<md-progress-linear md-mode="indeterminate"></md-progress-linear>
+			<md-subheader class="md-no-sticky">Downloading Meta Models</md-subheader>
+		</div>
+		<md-list flex ng-if="!ctrl.loading && ctrl.items.length>0">
+
+			<md-list-item class="md-3-line" ng-repeat="item in ctrl.items" ng-click="ctrl.editMetamodel(item)">
+				<ng-md-icon icon="insert_drive_file" class="md-avatar"></ng-md-icon>
+				<div class="md-list-item-text" layout="column">
+					<h3>{{ item.name }}</h3>
+					<h4>{{ item.url }}</h4>
+
+					<p>{{ item.description }}</p>
+				</div>
+			</md-list-item>
+		</md-list>
+		<md-list flex ng-if="!ctrl.loading && ctrl.items.length==0">
+			<md-subheader class="md-no-sticky">Sorry, no Meta Models for the selected query :(</md-subheader>
+		</md-list>
+	</md-card>
+
+
+</div>
+

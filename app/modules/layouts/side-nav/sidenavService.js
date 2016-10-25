@@ -22,7 +22,7 @@
 		// Sample code.
 
 		var menu = [{
-			link: 'metaModelsEditor',
+			link: 'metaModels.metaModelsList',
 			name: 'MetaModelli'
 		}];
 
