@@ -13,7 +13,7 @@
 		.module('mmwe')
 		.controller('HomeCtrl', Home);
 
-	Home.$inject = ['homeService'];
+	Home.$inject = ['homeService', '$timeout'];
 
 	/*
 	 * recommend
@@ -21,16 +21,37 @@
 	 * and bindable members up top.
 	 */
 
-	function Home(homeService) {
+	function Home(homeService, $timeout) {
 		/*jshint validthis: true */
 		var vm = this;
 
 
+		vm.original_title = "Welcome to MMWE";
 
-		vm.title = "Hello, mmwe!";
+		vm.title = '';
+		var index = 0;
+
+
+		vm.subtitle = "DISIM's Meta Model Web Editor";
 		vm.version = "1.0.0";
-		//vm.listFeatures = homeService.getFeaturesList();
+
+		__typeTitle(index, 500);
+
+		vm.listFeatures = homeService.getFeaturesList();
+
+		function __typeTitle(index, delay_constant) {
+			vm.title = vm.title.replace('|', '')
+			if (index < vm.original_title.length) {
+				vm.title += vm.original_title.charAt(index) + '|';
+
+				$timeout(function () {
+					__typeTitle(index + 1, delay_constant)
+				}, delay_constant * Math.random())
+			}
+
+		}
 
 	}
+
 
 })();

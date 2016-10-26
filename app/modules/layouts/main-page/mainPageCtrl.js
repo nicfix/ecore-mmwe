@@ -2,12 +2,12 @@
 	'use strict';
 
 	/**
-	* @ngdoc function
-	* @name app.controller:LayoutCtrl
-	* @description
-	* # LayoutCtrl
-	* Controller of the app
-	*/
+	 * @ngdoc function
+	 * @name app.controller:LayoutCtrl
+	 * @description
+	 * # LayoutCtrl
+	 * Controller of the app
+	 */
 
 	angular
 		.module('mmwe')
@@ -16,12 +16,12 @@
 	Layout.$inject = ['$mdSidenav', '$cookies', '$state', '$mdToast', '$mdDialog'];
 
 	/*
-	* recommend
-	* Using function declarations
-	* and bindable members up top.
-	*/
+	 * recommend
+	 * Using function declarations
+	 * and bindable members up top.
+	 */
 
-	function Layout($mdSidenav, $cookies, $state, $mdToast, $mdDialog ) {
+	function Layout($mdSidenav, $cookies, $state, $mdToast, $mdDialog) {
 		/*jshint validthis: true */
 		var vm = this;
 
@@ -32,9 +32,9 @@
 		vm.changePassword = function () {
 			$mdToast.show(
 				$mdToast.simple()
-				.content('Password clicked!')
-				.position('top right')
-				.hideDelay(2000)
+					.content('Password clicked!')
+					.position('top right')
+					.hideDelay(2000)
 			);
 		};
 
@@ -44,35 +44,35 @@
 				templateUrl: 'tabDialog.tmpl.html',
 				parent: angular.element(document.body),
 				targetEvent: ev,
-				clickOutsideToClose:true
+				clickOutsideToClose: true
 			})
-			.then(function(answer) {
-				$mdToast.show(
-					$mdToast.simple()
-					.content('You said the information was "' + answer + '".')
-					.position('top right')
-					.hideDelay(2000)
-				);
+				.then(function (answer) {
+					$mdToast.show(
+						$mdToast.simple()
+							.content('You said the information was "' + answer + '".')
+							.position('top right')
+							.hideDelay(2000)
+					);
 
-			}, function() {
-				$mdToast.show(
-					$mdToast.simple()
-					.content('You cancelled the dialog.')
-					.position('top right')
-					.hideDelay(2000)
-				);
-			});
+				}, function () {
+					$mdToast.show(
+						$mdToast.simple()
+							.content('You cancelled the dialog.')
+							.position('top right')
+							.hideDelay(2000)
+					);
+				});
 
 			function DialogController($scope, $mdDialog) {
-				$scope.hide = function() {
+				$scope.hide = function () {
 					$mdDialog.hide();
 				};
 
-				$scope.cancel = function() {
+				$scope.cancel = function () {
 					$mdDialog.cancel();
 				};
 
-				$scope.answer = function(answer) {
+				$scope.answer = function (answer) {
 					$mdDialog.hide(answer);
 				};
 			}
@@ -92,6 +92,8 @@
 			originatorEv = ev;
 			$mdOpenMenu(ev);
 		};
+
+		vm.title = '';
 
 	}
 

@@ -18,6 +18,35 @@
 		self.init = init;
 
 
+		self.PANELS_MODE_AS_CARD = {
+			label: 'as card',
+			value: 'asCard'
+		};
+		self.PANELS_MODE_AS_SIDENAV = {
+			label: 'as sidenav',
+			value: 'asSidenav'
+		};
+
+		self.EDITOR_MODE_AS_TREE = {
+			label: 'as tree',
+			value: 'asTree'
+		}
+
+
+		self.ORIENTATION_ROW = 'row';
+		self.ORIENTATION_COLUMN = 'column';
+
+		self.settings = {
+			orientation: self.ORIENTATION_ROW,
+			panels: {
+				mode: self.PANELS_MODE_AS_CARD
+			},
+			editor: {
+				mode: self.EDITOR_MODE_AS_TREE
+			}
+		}
+
+
 		init();
 
 

@@ -1,19 +1,38 @@
 <div class="md-padding" flex layout-sm="column">
-    <md-card class="text-center">
-        <md-card-content>
-            <h1>{{ vm.title }}</h1>
-            <h3>{{ vm.version }}</h3>
-            <p>This is a template for a simple home screen website. Use it as a starting point to create something more unique.</p>
-            <code>app/modules/home/home.html</code>
-            <br>
-            <p><a href="http://www.github.com/newaeonweb/generator-angm" class="btn btn-primary" role="button">Learn more »</a></p>
-            <md-divider class="margin-top-20"></md-divider>
-            <h1 class="margin-top-50">Features</h1>
-            <ul>
-                <li class=" text-center" ng-repeat="item in vm.listFeatures">
-                    <p><ng-md-icon icon="check"></ng-md-icon> {{item.feature}}</p>
-                </li>
-            </ul>
-        </md-card-content>
-    </md-card>
+	<md-card>
+		<md-card-content class="text-center">
+			<h1 class="title">{{ vm.title }}</h1>
+
+			<h3>{{ vm.subtitle }}</h3>
+		</md-card-content>
+		<md-card-content>
+			<p>
+				<strong>MMWE</strong> a.k.a. <strong>Meta Model Web Editor</strong>
+				allows you to create, modify and use Ecore (EMOF) based
+				Meta/Final Models defined and stored in DISIM's repository.
+			</p>
+
+			<p>
+				The project is developed in collaboration with the <strong>Department of Computer Science and Software
+				Engineering</strong> (DISIM in Italian)
+				of the <strong>University of L'Aquila</strong>.
+			</p>
+
+			<br>
+
+			<p><a href="https://github.com/nicfix/ecore-mmwe" class="btn btn-primary" role="button">Learn
+				more »</a></p>
+			<md-divider class="margin-top-20"></md-divider>
+			<h2 class="margin-top-50">Features</h2>
+			<ul>
+				<li class="" ng-repeat="item in vm.listFeatures">
+					<p>
+						<ng-md-icon icon="check" ng-if="item.status=='DONE'"></ng-md-icon>
+						<ng-md-icon icon="create" ng-if="item.status=='IN_PROGRESS'"></ng-md-icon>
+						{{item.feature}}
+					</p>
+				</li>
+			</ul>
+		</md-card-content>
+	</md-card>
 </div>

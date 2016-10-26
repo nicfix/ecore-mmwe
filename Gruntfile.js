@@ -127,7 +127,7 @@ module.exports = function (grunt) {
 			},
 			production: {
 				files: {
-					'index.html': [
+					'home.html': [
 						'app/assets/css/**/*.css',
 						'app/assets/js/*.js'
 					]

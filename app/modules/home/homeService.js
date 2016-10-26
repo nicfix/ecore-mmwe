@@ -2,12 +2,12 @@
 	'use strict';
 
 	/**
-	* @ngdoc function
-	* @name app.service:homeService
-	* @description
-	* # homeService
-	* Service of the app
-	*/
+	 * @ngdoc function
+	 * @name app.service:homeService
+	 * @description
+	 * # homeService
+	 * Service of the app
+	 */
 
 	angular.module('mmwe')
 		.factory('homeService', homeService);
@@ -17,17 +17,16 @@
 
 	function homeService($http) {
 
+		var STATUS_DONE = 'DONE';
+		var STATUS_IN_PROGRESS = 'IN_PROGRESS';
+
 		var list = [
-			{"feature": "Implemented Best Practices, following: John Papa's Guide"},
-			{"feature": "Using Controller AS syntax"},
-			{"feature": "Wrap Angular components in an Immediately Invoked Function Expression (IIFE)"},
-			{"feature": "Declare modules without a variable using the setter syntax"},
-			{"feature": "Using named functions"},
-			{"feature": "Including Unit test with Karma"},
-			{"feature": "Including UI options for Bootstrap or Angular-Material"},
-			{"feature": "Including Angular-Material-Icons for Angular-Material UI"},
-			{"feature": "Dynamic Menu generator for both themes"},
-			{"feature": "Grunt task for Production and Development"}
+			{"feature": "This Dashboard :)", status: STATUS_DONE},
+			{"feature": "Meta Models Repository Browser", status: STATUS_DONE},
+			{"feature": "Tree Editor for Meta Models", status: STATUS_DONE},
+			{"feature": "Properties editor for Meta Models", status: STATUS_DONE},
+			{"feature": "Meta Models Export in Ecore Json notation", status: STATUS_IN_PROGRESS},
+			{"feature": "Integration with DISIM repository", status: STATUS_IN_PROGRESS},
 		];
 
 		return {

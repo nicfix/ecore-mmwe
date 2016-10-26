@@ -23,7 +23,8 @@
 
 		var menu = [{
 			link: 'metaModels.metaModelsList',
-			name: 'MetaModelli'
+			name: 'Meta Models',
+			icon: 'folder'
 		}];
 
 		return {

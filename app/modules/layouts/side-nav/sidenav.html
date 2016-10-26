@@ -1,28 +1,39 @@
-<md-toolbar class="md-tall md-hue-2">
-	<div layout="column" class="md-toolbar-tools-bottom inset">
-		<div layout="row">
-			<div flex="20">
+<div ng-controller="SidenavCtrl as vm" ng-cloak layout="column" layout-fill>
+	<md-toolbar class="md-tall md-hue-2">
+		<div layout="column" class="md-toolbar-tools-bottom inset">
+			<div layout="row">
+				<div flex="80" style="margin-top: 10px;">
+					<div class="title">{{vm.title}}</div>
+				</div>
+			</div>
+		</div>
+	</md-toolbar>
+	<md-list flex>
+		<md-list-item ui-sref="home.dashboard">
+			<div class="inset">
+				<ng-md-icon icon="apps"></ng-md-icon>
+			</div>
+			<p> Dashboard </p>
+		</md-list-item>
+		<md-list-item ng-repeat="item in vm.menu" ng-click="vm.navigateTo('home.' + item.link)">
+			<div class="inset" ng-show="item.icon">
+				<ng-md-icon icon="{{item.icon}}"></ng-md-icon>
+			</div>
+			<p> {{ item.name }}</p>
+		</md-list-item>
 
+		<!--md-subheader>Admin</md-subheader>
+		<md-list-item ng-repeat="item in vm.admin" ng-click="vm.showSettingsBottom($event)">
+			<div class="inset">
+				<ng-md-icon icon="{{item.icon}}"></ng-md-icon>
 			</div>
-			<div flex="80" style="margin-top: 10px;font-size: 1em;">
-				<div>Fernando Monteiro</div>
-			</div>
-		</div>
-	</div>
-</md-toolbar>
-<md-list>
-	<md-list-item ng-repeat="item in vm.menu" ng-click="vm.navigateTo(item.link)">
-		<div class="inset" ng-show="item.icon">
-			<ng-md-icon icon="{{item.icon}}"></ng-md-icon>
-		</div>
-		<p> {{ item.name }}</p>
-	</md-list-item>
+			<p> {{ item.title }}</p>
+		</md-list-item-->
+	</md-list>
+	<span flex></span>
 	<md-divider></md-divider>
-	<md-subheader>Admin</md-subheader>
-	<md-list-item ng-repeat="item in vm.admin" ng-click="vm.showSettingsBottom($event)">
-		<div class="inset">
-			<ng-md-icon icon="{{item.icon}}"></ng-md-icon>
-		</div>
-		<p> {{ item.title }}</p>
-	</md-list-item>
-</md-list>
+	<div style="padding-left:10px; padding-right: 10px;">
+		<img style="width:100%" src="/app/assets/images/pageres.png">
+	</div>
+
+</div>

@@ -2,12 +2,12 @@
 	'use strict';
 
 	/**
-	* @ngdoc function
-	* @name app.controller:SidenavCtrl
-	* @description
-	* # SidenavCtrl
-	* Controller of the app
-	*/
+	 * @ngdoc function
+	 * @name app.controller:SidenavCtrl
+	 * @description
+	 * # SidenavCtrl
+	 * Controller of the app
+	 */
 	angular
 		.module('mmwe')
 		.controller('SidenavCtrl', SidenavCtrl)
@@ -15,24 +15,27 @@
 
 	// Injecting Denpendencies
 
-	SidenavCtrl.$inject = ['$mdSidenav', '$state', '$mdBottomSheet', '$mdToast', 'MenuService', '$scope'];
+	SidenavCtrl.$inject = ['$mdSidenav', '$state', '$mdBottomSheet', '$mdToast', 'MenuService', '$scope', '$timeout', '$interval'];
 	SettingsCtrl.$inject = ['$mdBottomSheet'];
 
 	/*
-	* recommend
-	* Using function declarations
-	* and bindable members up top.
-	*/
+	 * recommend
+	 * Using function declarations
+	 * and bindable members up top.
+	 */
 
-	function SidenavCtrl($mdSidenav, $state, $mdBottomSheet, $mdToast, MenuService, $scope) {
+	function SidenavCtrl($mdSidenav, $state, $mdBottomSheet, $mdToast, MenuService, $scope, $timeout, $interval) {
 		/*jshint validthis: true */
 		var vm = this;
+
+		vm.original_title = 'mmwe';
+		vm.title = '';
 
 		vm.toggleSidenav = function (menuId) {
 			$mdSidenav(menuId).toggle();
 		};
 
-		vm.closeSidenav = function() {
+		vm.closeSidenav = function () {
 			$mdSidenav('left').close();
 		};
 
@@ -68,12 +71,52 @@
 			}).then(function (clickedItem) {
 				$mdToast.show(
 					$mdToast.simple()
-					.content(clickedItem.name + ' clicked!')
-					.position('top right')
-					.hideDelay(2000)
+						.content(clickedItem.name + ' clicked!')
+						.position('top right')
+						.hideDelay(2000)
 				);
 			});
 		};
+
+		$timeout(function () {
+			__typeTitle(0, 1000)
+		}, 2000)
+
+		$interval(function () {
+			vm.title = '';
+			try {
+				$interval.cancel(vm.blink_interval)
+			} catch (e) {
+
+			}
+			$timeout(function () {
+				__typeTitle(0, 1000)
+			}, 1000)
+		}, 10000)
+
+
+		function __typeTitle(index, delay_constant) {
+
+			vm.title = vm.title.replace('|', '')
+			if (index < vm.original_title.length) {
+				vm.title += vm.original_title.charAt(index) + '|';
+
+				$timeout(function () {
+					__typeTitle(index + 1, delay_constant)
+				}, delay_constant * Math.random())
+			} else {
+				vm.title += '   ';
+				vm.blink_interval = $interval(function () {
+					if (vm.title.indexOf('|') == -1) {
+						vm.title += '|'
+					}
+					else {
+						vm.title = vm.title.replace('|', '')
+					}
+				}, 1000)
+			}
+
+		}
 
 	}
 
