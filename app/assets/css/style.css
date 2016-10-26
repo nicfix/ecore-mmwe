@@ -1,0 +1,9 @@
+@font-face {
+	font-family: 'Pixel'; /*a name to be used later*/
+	src: url('/app/assets/fonts/LLPIXEL3.ttf'); /*URL to font*/
+}
+
+.title {
+	font-family: 'Pixel';
+	font-weight: normal;
+}
