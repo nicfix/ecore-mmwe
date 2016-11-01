@@ -23,9 +23,16 @@
 				</md-checkbox>
 
 
-				<md-select flex ng-if="value.type=='EType' || ( value.type=='EClass' && value.multiple==false)"
+				<md-select flex ng-if="value.type=='EType'"
 						   ng-model="ctrl.treeEcoreElement.values[property]">
 					<md-option ng-repeat="option in value.supportedValues()" ng-value="option">
+						{{option.values.name}}
+					</md-option>
+				</md-select>
+
+				<md-select flex ng-if="(value.type=='EClass' && value.multiple==false)"
+						   ng-model="ctrl.treeEcoreElement.values[property]">
+					<md-option ng-repeat="option in value.supportedValues()" ng-value="option.eClass">
 						{{option.values.name}}
 					</md-option>
 				</md-select>
