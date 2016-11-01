@@ -9,7 +9,10 @@
 		.controller('MetaModelsEditorController', MetaModelsEditorController);
 
 	/* @ngInject */
-	function MetaModelsEditorController($scope, $stateParams, $rootScope, metaModelsService, ecoreTreeService, $http, META_MODELS_EDITOR) {
+	function MetaModelsEditorController($stateParams,
+										$rootScope,
+										metaModelsService,
+										META_MODELS_EDITOR) {
 
 		var self = this;
 
@@ -52,36 +55,20 @@
 
 		function init() {
 
+			var resourceSet = Ecore.ResourceSet.create();
 			metaModelsService.loadMetaModel($stateParams.modelId)
 				.then(function (metaModel) {
 
 					var initModel = function (model) {
-						var ecorePackage = model.get('contents').first();
-						self.editingPackage = ecoreTreeService.ecoreElementToTreeElement(ecorePackage, null);
+						self.editingPackage = model.get('contents').first();
 						self.selectedElement = self.editingPackage;
 					}
 
+					self.resource = resourceSet.create({uri: '/model.json'});
 
-					var res = Ecore.Resource.create({uri: 'model.json'});
-
-					res.load(metaModel.data, initModel);
+					self.resource.load(metaModel.data, initModel);
 				})
 		}
-
-		$rootScope.$on(META_MODELS_EDITOR.EVENTS.MODEL_UPDATE_EVENT, function () {
-
-			var resourceSet = Ecore.ResourceSet.create();
-
-			self.resource = resourceSet.create({uri: '/model.json'});
-
-			self.resource.get('contents').add(ecoreTreeService.
-				treeElementToEcoreElement(self.editingPackage, null));
-
-			self.json = self.resource.to();
-
-			console.log(self.json);
-		});
-
 
 	} // fine controller
 

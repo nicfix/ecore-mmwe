@@ -1,12 +1,12 @@
 'use strict';
 
-	/**
-	* @ngdoc function
-	* @name app.route:HomeRoute
-	* @description
-	* # HomeRoute
-	* Route of the app
-	*/
+/**
+ * @ngdoc function
+ * @name app.route:HomeRoute
+ * @description
+ * # HomeRoute
+ * Route of the app
+ */
 
 angular.module('mmwe')
 	.config(['$stateProvider', function ($stateProvider) {
@@ -20,8 +20,9 @@ angular.module('mmwe')
 				controllerAs: 'vm'
 			})
 			.state('home.dashboard', {
-				url:'/dashboard',
-				templateUrl: 'app/modules/home/dashboard.html'
+				url: '/dashboard',
+				templateUrl: 'app/modules/home/dashboard.html',
+				title: 'Dashboard'
 			});
 
 	}]);

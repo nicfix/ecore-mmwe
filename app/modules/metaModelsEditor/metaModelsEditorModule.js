@@ -2,7 +2,7 @@
  * Created by nicolasacco on 25/09/16.
  */
 angular
-	.module('metaModelsEditor', ['treeEcore', 'treeControl', 'md.data.table', 'picardy.fontawesome', 'uuid'])
+	.module('metaModelsEditor', ['treeControl', 'md.data.table', 'picardy.fontawesome', 'uuid'])
 	.constant('META_MODELS_EDITOR',
 	{
 		'EVENTS': {

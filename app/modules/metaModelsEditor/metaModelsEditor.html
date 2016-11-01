@@ -4,10 +4,12 @@
 <div class="md-padding" flex layout="row" layout-fill ng-if="ctrl.editingPackage">
 
 
-	<tree-ecore-editor flex="50" layout="column" tree-ecore-element="ctrl.editingPackage"
-					   selected-element="ctrl.selectedElement"
-					   ng-if="ctrl.settings.editor.mode.value==ctrl.EDITOR_MODE_AS_TREE.value">
-	</tree-ecore-editor>
+	<decorated-tree-ecore-editor flex="50" layout="column"
+								 ecore-resource="ctrl.resource"
+								 editing-package="ctrl.editingPackage"
+								 selected-element="ctrl.selectedElement"
+								 ng-if="ctrl.settings.editor.mode.value==ctrl.EDITOR_MODE_AS_TREE.value">
+	</decorated-tree-ecore-editor>
 
 
 	<md-card flex="50" layout="column" ng-if="ctrl.settings.panels.mode.value==ctrl.PANELS_MODE_AS_CARD.value">
@@ -42,22 +44,11 @@
 				</md-content>
 			</md-tab>
 
-			<md-tab label="Progress">
-				<md-content layout="column">
-					<md-list>
-						<md-list-item>
-							<h3>In development</h3>
-						</md-list-item>
-					</md-list>
-
-				</md-content>
-			</md-tab>
-
-			<!--md-tab label="JSON">
-				<pre>
-  					{{ctrl.selectedElement.values | json}}
+			<md-tab label="JSON">
+				<pre style="padding:8px;">
+{{ctrl.resource.to() | json}}
 				</pre>
-			</md-tab-->
+			</md-tab>
 
 		</md-tabs>
 	</md-card>

@@ -13,7 +13,7 @@
 		border: none;
 	}
 </style>
-<md-card layout="column" ng-keydown="ctrl.down">
+<md-card layout="column">
 	<md-toolbar>
 		<div class="md-toolbar-tools">
 			<ng-md-icon icon="format_indent_increase"></ng-md-icon>
@@ -27,9 +27,13 @@
 					   ng-click="ctrl.addChild()">
 				<ng-md-icon icon="add_circle_outline"></ng-md-icon>
 			</md-button>
-			<md-button class="md-fab md-mini" ng-if="ctrl.selectedElement._parent"
+			<md-button class="md-fab md-mini" ng-if="ctrl.selectedElement.eContainer"
 					   ng-click="ctrl.removeChild()">
 				<ng-md-icon icon="remove_circle_outline"></ng-md-icon>
+			</md-button>
+			<md-button class="md-fab md-mini"
+					   ng-click="ctrl.export()">
+				<ng-md-icon icon="open_in_new"></ng-md-icon>
 			</md-button>
 		</div>
 	</md-toolbar>
@@ -42,17 +46,18 @@
 					 selected-node="ctrl.selectedElement"
 					 expanded-nodes="ctrl.expandedElements">
 			<span>
-				<ng-md-icon icon="{{ctrl.ECORE_TYPE_ICONS[node._type]}}"></ng-md-icon>
+				<ng-md-icon icon="{{ctrl.ECORE_TYPE_ICONS[node.eClass.values.name]}}"></ng-md-icon>
 			 </span>
 			{{node.values.name}}
 			<span ng-switch="node._type">
 
-				<span ng-if="node._type==ctrl.ECORE_TYPES.EClass"
-					  ng-repeat="superType in node.values.eSuperTypes">
-					&nbsp;<span ng-if="$index==0">-></span> <span ng-if="$index!=0">,</span> {{superType.values.name}}
+				<span ng-if="node.eClass.values.name==ctrl.ECORE_TYPES.EClass"
+					  ng-repeat="tag in node.tags">
+					&nbsp;<span ng-if="$index==0">-></span> <span ng-if="$index!=0">,</span> {{tag}}
 				</span>
 
-				<span ng-if="node._type==ctrl.ECORE_TYPES.EAttribute || node._type==ctrl.ECORE_TYPES.EReference">
+				<span
+					ng-if="node.eClass.values.name==ctrl.ECORE_TYPES.EAttribute || node.eClass.values.name==ctrl.ECORE_TYPES.EReference">
 					&nbsp;:&nbsp;{{node.values.eType.values.name}}
 				</span>
 

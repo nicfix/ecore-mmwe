@@ -22,7 +22,8 @@
 		'ui.router',
 		'home',
 		'metaModels',
-		'treeEcore'
+		'ecoreDecorators'
+
 	]);
 
 })();

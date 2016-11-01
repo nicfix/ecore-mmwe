@@ -30,13 +30,15 @@ angular.module('metaModels')
 				url: '/metaModelsEditor/:modelId',
 				controller: 'MetaModelsEditorController',
 				controllerAs: 'ctrl',
-				templateUrl: 'app/modules/metaModelsEditor/metaModelsEditor.html'
+				templateUrl: 'app/modules/metaModelsEditor/metaModelsEditor.html',
+				title: 'Meta Models Editor'
 			})
 			.state(META_MODELS.ROUTES.metaModelsList, {
 				url: '/metaModelsList',
 				controller: 'MetaModelsListController',
 				controllerAs: 'ctrl',
-				templateUrl: 'app/modules/metaModelsBrowser/metaModelsList.html'
+				templateUrl: 'app/modules/metaModelsBrowser/metaModelsList.html',
+				title: 'Meta Models'
 			});
 
 	}]);

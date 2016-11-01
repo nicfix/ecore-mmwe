@@ -7,18 +7,19 @@
 
 	angular
 		.module('metaModelsEditor')
-		.directive('treeEcoreEditor', treeEcoreEditor);
+		.directive('decoratedTreeEcoreEditor', decoratedTreeEcoreEditor);
 
 	/* @ngInject */
-	function treeEcoreEditor(META_MODELS_EDITOR) {
+	function decoratedTreeEcoreEditor(META_MODELS_EDITOR) {
 		var directive = {
 			bindToController: true,
-			controller: TreeEcoreEditorController,
+			controller: DecoratedTreeEcoreEditorController,
 			controllerAs: 'ctrl',
-			templateUrl: META_MODELS_EDITOR.BASE_PATH + '/treeEcoreEditor.html',
+			templateUrl: META_MODELS_EDITOR.BASE_PATH + '/treeEditor/treeEditor.html',
 			restrict: 'EA',
 			scope: {
-				treeEcoreElement: '=',
+				ecoreResource: '=',
+				editingPackage: '=',
 				selectedElement: '=?'
 			}
 		};
@@ -28,7 +29,13 @@
 	} // fine direttiva
 
 	/* @ngInject */
-	function TreeEcoreEditorController($scope, ecoreTreeService, ECORE_TYPES, $mdDialog, $rootScope, META_MODELS_EDITOR) {
+	function DecoratedTreeEcoreEditorController($scope,
+												ECORE_DECORATOR,
+												EcoreDecoratorsRepoService,
+												ECORE_TYPES,
+												$mdDialog,
+												$rootScope,
+												META_MODELS_EDITOR) {
 
 		var self = this;
 
@@ -49,6 +56,9 @@
 			dirSelectable: true,
 			multiSelection: false,
 			allowDeselect: false,
+			equality: function (o1, o2) {
+				return o1.id == o2.id;
+			},
 			injectClasses: {
 				ul: "a1",
 				li: "a2",
@@ -63,7 +73,6 @@
 
 		// =============================================
 
-		//self.dataForTheTree = [];
 		self.expandedElements = [];
 
 		self.supportedChildrenTypes = [];
@@ -78,7 +87,6 @@
 		self.addChild = addChild;
 		self.removeChild = removeChild;
 
-
 		init();
 
 		// =============================================
@@ -89,8 +97,11 @@
 
 
 		function __buildTree() {
-
-			self.treeEcorePackage = [self.treeEcoreElement];
+			self.treeEcorePackage = [
+				EcoreDecoratorsRepoService
+					.getDecorator(ECORE_DECORATOR.TREE_DECORATORS_PREFIX + self.editingPackage.eClass.values.name)
+					.decorate(self.editingPackage)
+			]
 		}
 
 		function addChild(element) {
@@ -99,31 +110,34 @@
 		}
 
 		function doCreateChild(child_type) {
-
-			var children = ecoreTreeService.buildTreeEcoreElement(child_type, self.selectedElement)
-
-			self.selectedElement.children.push(
-				children
-			);
-
+			var newElement = self.selectedElement.newChildren(child_type);
 			self.creatingElement = false;
 			$mdDialog.hide();
 			self.expandedElements.push(self.selectedElement);
-			self.selectedElement = children;
+			//self.selectedElement = newElement;
+
 		}
 
 		function getSupportedChildrenTypes() {
-			return self.supportedChildrenTypes;
+			return self.selectedElement.supportedChildrenTypes;
 		}
 
-		function removeChild(element) {
-			self.selectedElement._parent.children.splice(self.selectedElement._parent.children.indexOf(element), 1);
+		function removeChild() {
+
+			var parent = self.selectedElement.eContainer;
+
+			if (angular.isDefined(parent)) {
+				parent.removeChildren(self.selectedElement);
+				self.selectedElement = parent;
+			}
+
 		}
+
 
 		$scope.$watch('ctrl.selectedElement', function (newVal) {
-			self.supportedChildrenTypes = ecoreTreeService.getSupportedChildrenTypes(self.selectedElement);
 			notifyUpdate();
 		})
+
 
 		self.showPrerenderedDialog = function (ev) {
 			$mdDialog.show({
@@ -135,27 +149,23 @@
 			});
 		};
 
-		self.keyBuffer = [];
-
-		function arrays_equal(a, b) {
-			return !(a < b || b < a);
-		}
-
-		self.down = function (e) {
-			console.log("Wooo!");
-			self.keyBuffer.push(e.keyCode);
-
-			var upUp = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65];
-			console.log(self.keyBuffer);
-			if (arrays_equal(upUp, self.keyBuffer)) {
-
-
-			}
-		};
-
 
 		function notifyUpdate() {
 			$rootScope.$broadcast(META_MODELS_EDITOR.EVENTS.MODEL_UPDATE_EVENT);
+		}
+
+		self.export = function () {
+
+			var element = document.createElement('a');
+			element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(JSON.stringify(self.ecoreResource.to(), null, '  ')));
+			element.setAttribute('download', 'export.json');
+
+			element.style.display = 'none';
+			document.body.appendChild(element);
+
+			element.click();
+
+			document.body.removeChild(element);
 		}
 
 

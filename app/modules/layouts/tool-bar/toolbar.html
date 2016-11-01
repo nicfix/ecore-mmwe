@@ -4,33 +4,4 @@
 	</md-button>
 	<h3 class="title">{{layout.title}}</h3>
 	<span flex></span>
-	<md-button aria-label="Search" ng-click="showSearch = !showSearch">
-		<ng-md-icon icon="search"></ng-md-icon>
-	</md-button>
-	<md-menu>
-		<md-button aria-label="Open Settings" ng-click="layout.openMenu($mdOpenMenu, $event)">
-			<md-icon> more_vert</md-icon>
-		</md-button>
-		<md-menu-content width="4">
-			<md-menu-item>
-				<md-button ng-click="layout.changeProfile($event)">
-					<md-icon>face</md-icon>
-					Profile
-				</md-button>
-			</md-menu-item>
-			<md-menu-item>
-				<md-button ng-click="layout.changePassword()">
-					<md-icon>lock</md-icon>
-					Password
-				</md-button>
-			</md-menu-item>
-			<md-menu-divider></md-menu-divider>
-			<md-menu-item>
-				<md-button ng-click="layout.logOut()">
-					<md-icon>power_settings_new</md-icon>
-					Logout
-				</md-button>
-			</md-menu-item>
-		</md-menu-content>
-	</md-menu>
 </div>
