@@ -27,6 +27,7 @@
 		self.editMetamodel = __editMetaModel;
 
 
+
 		/**
 		 * Invoking init at the creation of the controller.
 		 */

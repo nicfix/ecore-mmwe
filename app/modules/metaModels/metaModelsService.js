@@ -6,13 +6,21 @@
 		.service('metaModelsService', metaModelsService);
 
 	/* @ngInject */
-	function metaModelsService($q, $http, $timeout) {
+	function metaModelsService($q, $http, $timeout, mdeForgeClientService) {
 		/**
 		 * This service is used to load and post meta models from and to disim
 		 * repository
 		 * @type {string}
 		 */
 
+
+		var client = mdeForgeClientService.getInstance();
+
+		var META_MODELS_PATH_URL = 'api/EcoreMetamodel/shared';
+
+		client.logIn('Admin', 'juri').then(function (response) {
+			console.log(response);
+		})
 
 		/**
 		 * Dummy data initialization, for demo purposes only
@@ -30,6 +38,7 @@
 				url: example_metamodels_path + '/example' + i + '.json'
 			})
 		}
+
 
 		return {
 
