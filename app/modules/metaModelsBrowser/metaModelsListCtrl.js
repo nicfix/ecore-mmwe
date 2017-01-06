@@ -9,7 +9,7 @@
 		.controller('MetaModelsListController', MetaModelsListController);
 
 	/* @ngInject */
-	function MetaModelsListController($state, metaModelsService, META_MODELS) {
+	function MetaModelsListController($state, $scope, $mdToast, AntiBounceService, metaModelsService, META_MODELS) {
 
 		var self = this;
 
@@ -17,15 +17,17 @@
 		 * Properties
 		 *
 		 */
-		self.loading = true;
-		self.items = [];
+		self.loading = false;
+		self.items = undefined;
+		self.LAST_SEARCH_STORAGE_KEY = 'mdeForge.metaModelsListController.lastSearch'
 
 		/**
 		 * Public methods, invokable in templates
 		 */
 		self.init = init;
 		self.editMetamodel = __editMetaModel;
-
+		self.searchMetaModel = __searchMetaModel;
+		self.newMetaModel = __newMetaModel;
 
 
 		/**
@@ -37,7 +39,36 @@
 		 * Starts loading for metamodels descriptions
 		 */
 		function init() {
-			metaModelsService.loadMetaModels({}).then(__onMetaModelsLoaded)
+			__loadLastSearch();
+
+			$scope.$watch('ctrl.searchText', __searchMetaModel)
+		}
+
+		function __searchMetaModel(search) {
+			if (angular.isDefined(search) && search != '') {
+				AntiBounceService.do(function () {
+					delete self.items;
+					self.loading = true;
+					__updateUserLastSearch(search);
+					metaModelsService.searchMetaModelsMetaData(search).then(__onMetaModelsLoaded, __onMetaModelsLoadingError)
+				})
+			}
+		}
+
+
+		function __loadLastSearch() {
+			var lastSearch = JSON.parse(localStorage.getItem(self.LAST_SEARCH_STORAGE_KEY))
+			if (angular.isDefined(lastSearch) && lastSearch != null) {
+				self.items = lastSearch.items;
+				self.lastSearchText = lastSearch.searchText;
+			}
+		}
+
+		function __updateUserLastSearch() {
+			localStorage.setItem(self.LAST_SEARCH_STORAGE_KEY, JSON.stringify({
+				searchText: self.searchText,
+				items: self.items
+			}))
 		}
 
 		/**
@@ -49,6 +80,7 @@
 		function __onMetaModelsLoaded(meta_models) {
 
 			self.items = meta_models;
+			__updateUserLastSearch();
 			self.loading = false;
 		}
 
@@ -59,7 +91,11 @@
 		 * @private
 		 */
 		function __onMetaModelsLoadingError(response) {
-
+			$mdToast.show(
+				$mdToast.simple()
+					.textContent("Spiacente, si è verificato un errore :(")
+					.hideDelay(3000)
+			);
 		}
 
 		/**
@@ -69,8 +105,16 @@
 		 * @private
 		 */
 		function __editMetaModel(mm) {
-
 			$state.go(META_MODELS.ROUTES.metaModelsEditor, {modelId: mm.id})
+		}
+
+		/**
+		 * Redirects to the metaModelsEditor
+		 * with no metaModel id
+		 * @private
+		 */
+		function __newMetaModel() {
+			$state.go(META_MODELS.ROUTES.metaModelsEditor)
 		}
 
 	} // fine controller

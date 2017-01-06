@@ -13,7 +13,7 @@
 		.module('mmwe')
 		.controller('LayoutCtrl', Layout);
 
-	Layout.$inject = ['$mdSidenav', '$scope', '$state'];
+	Layout.$inject = ['$mdSidenav', '$scope', '$state', 'ActualUserService'];
 
 	/*
 	 * recommend
@@ -21,7 +21,7 @@
 	 * and bindable members up top.
 	 */
 
-	function Layout($mdSidenav, $scope, $state) {
+	function Layout($mdSidenav, $scope, $state, ActualUserService) {
 		/*jshint validthis: true */
 		var vm = this;
 
@@ -35,6 +35,12 @@
 			vm.title = $state.current.title;
 		})
 
+
+		vm.logOut = function () {
+			ActualUserService.logOut().then(function () {
+				$state.go('login');
+			});
+		}
 
 	}
 

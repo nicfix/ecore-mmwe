@@ -1,38 +1,83 @@
-<div class="md-padding" flex layout-sm="column">
-	<md-card>
-		<md-card-content class="text-center">
-			<h1 class="title">{{ vm.title }}</h1>
+<div class="md-padding" layout-fill layout="column" flex layout-align="center start">
+	<div layout="row" flex="50">
+		<md-card flex="50">
+			<md-toolbar class="md-hue-2">
+				<div class="md-toolbar-tools">
+					<h2>
+						<h1 class="title">Welcome to <strong>mmwe</strong></h1>
+					</h2>
+					<span flex></span>
+				</div>
+			</md-toolbar>
+			<md-card-content>
+				<h2>Hi {{vm.user.username}},</h2>
+				<p>
+					<strong>MMWE</strong> a.k.a. <strong>Meta Model Web Editor</strong>
+					allows you to create, modify and use Ecore (EMOF) based
+					Meta/Final Models defined and stored in DISIM's repository.
+				</p>
 
-			<h3>{{ vm.subtitle }}</h3>
-		</md-card-content>
-		<md-card-content>
-			<p>
-				<strong>MMWE</strong> a.k.a. <strong>Meta Model Web Editor</strong>
-				allows you to create, modify and use Ecore (EMOF) based
-				Meta/Final Models defined and stored in DISIM's repository.
-			</p>
+				<p>
+					The project is developed in collaboration with the <strong>Department of Computer Science and
+					Software
+					Engineering</strong> (DISIM in Italian)
+					of the <strong>University of L'Aquila</strong>.
+				</p>
 
-			<p>
-				The project is developed in collaboration with the <strong>Department of Computer Science and Software
-				Engineering</strong> (DISIM in Italian)
-				of the <strong>University of L'Aquila</strong>.
-			</p>
+				<br>
+			</md-card-content>
+			<span flex></span>
+			<md-card-actions layout="row" layout-align="end center">
+				<a md-button class="md-primary" href="https://github.com/nicfix/ecore-mmwe">Learn more
+				</a>
+			</md-card-actions>
+		</md-card>
 
-			<br>
+		<md-card flex="50" layout="column" ng-controller="MetaModelsListController as ctrl"
+				 ng-show="ctrl.items.length>0">
+			<md-toolbar class="md-hue-2">
+				<div class="md-toolbar-tools">
+					<h2>
+						<span class="title">Metamodels for keyword "{{ctrl.lastSearchText}}"</span>
+					</h2>
+					<span flex></span>
+				</div>
+			</md-toolbar>
 
-			<p><a href="https://github.com/nicfix/ecore-mmwe" class="btn btn-primary" role="button">Learn
-				more »</a></p>
-			<md-divider class="margin-top-20"></md-divider>
-			<h2 class="margin-top-50">Features</h2>
-			<ul>
-				<li class="" ng-repeat="item in vm.listFeatures">
-					<p>
-						<ng-md-icon icon="check" ng-if="item.status=='DONE'"></ng-md-icon>
-						<ng-md-icon icon="create" ng-if="item.status=='IN_PROGRESS'"></ng-md-icon>
-						{{item.feature}}
-					</p>
-				</li>
-			</ul>
-		</md-card-content>
-	</md-card>
+			<md-subheader md-theme="docs-dark" ng-if="ctrl.lastSearchText && !ctrl.searchText"> * Your last search on
+				this browser
+			</md-subheader>
+
+			<md-table-container ng-if="!ctrl.loading && ctrl.items.length>0">
+				<table md-table>
+					<thead md-head>
+					<tr md-row>
+						<th md-column>
+							Name
+						</th>
+						<th md-column>
+							Author
+						</th>
+						<th md-column>
+							Description
+						</th>
+					</tr>
+					</thead>
+					<tbody md-body>
+					<tr ng-repeat="item in ctrl.items | orderBy : 'name'" ng-click="ctrl.editMetamodel(item)"
+						md-row
+						style="cursor:pointer;">
+						<td md-cell>{{item.name}}</td>
+						<td md-cell>{{ item.author.firstname }} {{ item.author.lastname }}</td>
+						<td md-cell>{{ item.description }}</td>
+					</tr>
+					</tbody>
+				</table>
+			</md-table-container>
+
+
+		</md-card>
+	</div>
+	<div layout="row" flex="50">
+	</div>
 </div>

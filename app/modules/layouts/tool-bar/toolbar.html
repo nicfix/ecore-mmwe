@@ -4,4 +4,17 @@
 	</md-button>
 	<h3 class="title">{{layout.title}}</h3>
 	<span flex></span>
+
+	<md-menu md-position-mode="target-right target">
+		<md-button class="md-fab md-mini" aria-label="Profile" ng-click="$mdOpenMenu($event)">
+			<ng-md-icon md-menu-origin icon="account_circle"></ng-md-icon>
+		</md-button>
+		<md-menu-content width="4">
+			<md-menu-item>
+				<md-button ng-click="layout.logOut()">
+					Logout
+				</md-button>
+			</md-menu-item>
+		</md-menu-content>
+	</md-menu>
 </div>

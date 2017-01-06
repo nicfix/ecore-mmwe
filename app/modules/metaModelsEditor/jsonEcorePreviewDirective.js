@@ -43,13 +43,7 @@
 		self.init = init;
 
 		init();
-
-
-
-		// =============================================
-
-
-
+		
 		$rootScope.$on(META_MODELS_EDITOR.EVENTS.MODEL_UPDATE_EVENT, function (newVal) {
 			self.jsonResource = self.ecoreResource.to();
 		})

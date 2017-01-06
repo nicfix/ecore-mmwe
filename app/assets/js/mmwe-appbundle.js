@@ -537,7 +537,7 @@ angular.module('metaModels')
 		 * Starts loading for metamodels descriptions
 		 */
 		function init() {
-			metaModelsService.loadMetaModels({}).then(__onMetaModelsLoaded)
+			metaModelsService.loadMetaModelsMetaData({}).then(__onMetaModelsLoaded)
 		}
 
 		/**
@@ -792,7 +792,7 @@ angular.module('metaModels')
 			 * @param query
 			 * @returns {*}
 			 */
-			loadMetaModels: function (query) {
+			loadMetaModelsMetaData: function (query) {
 
 
 				/**

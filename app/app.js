@@ -20,10 +20,11 @@
 		'ngAnimate',
 		'ngSanitize',
 		'ui.router',
+		'md.data.table',
 		'home',
 		'metaModels',
-		'ecoreDecorators'
-
+		'ecoreDecorators',
+		'login'
 	]);
 
 })();

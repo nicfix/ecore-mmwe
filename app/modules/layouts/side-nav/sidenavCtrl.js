@@ -15,7 +15,7 @@
 
 	// Injecting Denpendencies
 
-	SidenavCtrl.$inject = ['$mdSidenav', '$state', '$mdBottomSheet', '$mdToast', 'MenuService', '$scope', '$timeout', '$interval'];
+	SidenavCtrl.$inject = ['$mdSidenav', '$state', '$mdBottomSheet', '$mdToast', 'MenuService', '$scope', '$timeout', '$interval', 'ActualUserService'];
 	SettingsCtrl.$inject = ['$mdBottomSheet'];
 
 	/*
@@ -24,7 +24,7 @@
 	 * and bindable members up top.
 	 */
 
-	function SidenavCtrl($mdSidenav, $state, $mdBottomSheet, $mdToast, MenuService, $scope, $timeout, $interval) {
+	function SidenavCtrl($mdSidenav, $state, $mdBottomSheet, $mdToast, MenuService, $scope, $timeout, $interval, ActualUserService) {
 		/*jshint validthis: true */
 		var vm = this;
 
@@ -52,6 +52,8 @@
 				icon: 'settings'
 			}
 		];
+
+		
 
 		vm.navigateTo = function (target) {
 

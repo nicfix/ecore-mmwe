@@ -15,27 +15,22 @@
 		.config(configure)
 		.run(runBlock);
 
-	configure.$inject = ['$stateProvider', '$urlRouterProvider', '$locationProvider', '$httpProvider'];
+	configure.$inject = ['$stateProvider', '$urlRouterProvider', '$locationProvider', '$httpProvider', '$mdThemingProvider'];
 
-	function configure($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
+	function configure($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider, $mdThemingProvider) {
 
 		$locationProvider.hashPrefix('!');
-
-		// This is required for Browser Sync to work poperly
 		$httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-
-
 		$urlRouterProvider
 			.otherwise('/dashboard');
 
+		$mdThemingProvider.theme('docs-dark', 'default').primaryPalette('pink').dark();
 	}
 
-	runBlock.$inject = ['$rootScope'];
+	runBlock.$inject = ['$rootScope', 'ActualUserService', '$state'];
 
-	function runBlock($rootScope) {
+	function runBlock($rootScope, ActualUserService, $state) {
 		'use strict';
-
-		console.log('AngularJS run() function...');
 	}
 
 

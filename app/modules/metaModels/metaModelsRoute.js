@@ -31,7 +31,10 @@ angular.module('metaModels')
 				controller: 'MetaModelsEditorController',
 				controllerAs: 'ctrl',
 				templateUrl: 'app/modules/metaModelsEditor/metaModelsEditor.html',
-				title: 'Meta Models Editor'
+				title: 'Meta Models Editor',
+				params: {
+					modelId: null
+				}
 			})
 			.state(META_MODELS.ROUTES.metaModelsList, {
 				url: '/metaModelsList',

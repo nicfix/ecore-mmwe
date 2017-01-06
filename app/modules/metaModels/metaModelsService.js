@@ -6,7 +6,7 @@
 		.service('metaModelsService', metaModelsService);
 
 	/* @ngInject */
-	function metaModelsService($q, $http, $timeout, mdeForgeClientService) {
+	function metaModelsService($q, $mdToast, mdeForgeClientService) {
 		/**
 		 * This service is used to load and post meta models from and to disim
 		 * repository
@@ -16,11 +16,9 @@
 
 		var client = mdeForgeClientService.getInstance();
 
-		var META_MODELS_PATH_URL = 'api/EcoreMetamodel/shared';
+		var META_MODELS_PATH_URL = 'api/EcoreMetamodel';
 
-		client.logIn('Admin', 'juri').then(function (response) {
-			console.log(response);
-		})
+		var ARTIFACTS_PATH_URL = 'api/Artifact'
 
 		/**
 		 * Dummy data initialization, for demo purposes only
@@ -28,20 +26,23 @@
 		 */
 		var example_metamodels_path = 'example_metamodels';
 
-		var meta_models = [];
-
-		for (var i = 1; i < 5; i++) {
-			meta_models.push({
-				id: i,
-				name: 'Example ' + i,
-				description: i + 'th example for metamodels web editor',
-				url: example_metamodels_path + '/example' + i + '.json'
-			})
-		}
-
 
 		return {
 
+
+			searchMetaModelsMetaData: function (search) {
+				var deferred = $q.defer();
+
+				mdeForgeClientService.getInstance()
+					.doGetRequest(ARTIFACTS_PATH_URL + '/search/' + search)
+					.then(
+						function (response) {
+							deferred.resolve(response.data);
+						}, deferred.reject
+					);
+
+				return deferred.promise
+			},
 
 			/**
 			 * This method is used to load the descriptions of all
@@ -49,27 +50,48 @@
 			 * @param query
 			 * @returns {*}
 			 */
-			loadMetaModels: function (query) {
+			loadMetaModelsMetaData: function (query, folder) {
+				var deferred = $q.defer();
+
+				if (angular.isUndefined(folder)) {
+					folder = 'shared'
+				}
+
+				mdeForgeClientService.getInstance()
+					.doGetRequest(META_MODELS_PATH_URL + '/' + folder + '?limit=10')
+					.then(
+						function (response) {
+							deferred.resolve(response.data);
+						}, deferred.reject
+					);
+
+				return deferred.promise
+			},
 
 
-				/**
-				 * Preparing a deferred object
-				 * @type {Deferred}
-				 */
+			/**
+			 * This method is used to load entirely a specific metaModel
+			 * with a certain id
+			 * @param id
+			 */
+			loadMetaModelMetaData: function (id) {
+
 				var deferred = $q.defer();
 
 				/**
-				 * Simulating $http delay, for demo purposes only
+				 * Simulating download of object,
+				 * firstly retrieve the metaModel description json
+				 * and after that download the model from file
 				 */
-				$timeout(function () {
-					deferred.resolve(
-						meta_models
-					)
-				}, 1000);
-
+				mdeForgeClientService.getInstance()
+					.doGetRequest(META_MODELS_PATH_URL + '/' + id)
+					.then(
+						function (response) {
+							deferred.resolve(response.data);
+						}, deferred.reject
+					);
 
 				return deferred.promise;
-
 			},
 
 			/**
@@ -79,6 +101,30 @@
 			 */
 			loadMetaModel: function (id) {
 
+				var deferred = $q.defer();
+
+				/**
+				 * Simulating download of object,
+				 * firstly retrieve the metaModel description json
+				 * and after that download the model from file
+				 */
+				mdeForgeClientService.getInstance()
+					.doGetRequest(META_MODELS_PATH_URL + '/metamodelJsonFormat/' + id)
+					.then(
+						function (response) {
+							deferred.resolve(response.data);
+						}, deferred.reject
+					);
+
+				return deferred.promise;
+			},
+
+			/**
+			 * This method is used to load entirely a specific metaModel
+			 * with a certain id
+			 * @param id
+			 */
+			deleteMetaModel: function (id) {
 
 				var deferred = $q.defer();
 
@@ -87,34 +133,51 @@
 				 * firstly retrieve the metaModel description json
 				 * and after that download the model from file
 				 */
-				var mm = undefined;
-				angular.forEach(meta_models, function (item) {
-					if (item.id == id) {
-						mm = item;
-					}
-				});
+				mdeForgeClientService.getInstance()
+					.doDeleteRequest(META_MODELS_PATH_URL + '/' + id + '/')
+					.then(
+						function (response) {
+							deferred.resolve(response.data);
+						}, deferred.reject
+					);
 
-				if (!angular.isDefined(mm)) {
-					deferred.reject()
+				return deferred.promise;
+			},
+
+			/**
+			 * This method is used to store entirely a specific metaModel
+			 * @param data
+			 */
+			storeMetaModel: function (data) {
+
+				var deferred = $q.defer();
+
+				/**
+				 * If id exists than we have to update, if not we have to post
+				 * @see REST specification & guidelines
+				 */
+				if (angular.isDefined(data.id)) {
+
+					mdeForgeClientService.getInstance()
+						.doPutRequest(META_MODELS_PATH_URL, data)
+						.then(
+							function (response) {
+								$mdToast.show($mdToast.simple().textContent('Stored :)'));
+								deferred.resolve(response.data);
+							}, deferred.reject
+						);
+
+				} else {
+					mdeForgeClientService.getInstance()
+						.doPostRequest(META_MODELS_PATH_URL, data)
+						.then(
+							function (response) {
+								$mdToast.show($mdToast.simple().textContent('Stored :)'));
+								deferred.resolve(response.data);
+							}, deferred.reject
+						);
 				}
-				else {
 
-					/**
-					 * Downloading data from the url specified in the mm item and inserting it in the
-					 * complete_mm object
-					 */
-					$http.get(mm.url).then(function (response) {
-
-						var complete_mm = angular.copy(mm);
-
-						complete_mm.data = response.data;
-
-						deferred.resolve(
-							complete_mm
-						)
-
-					}, deferred.reject)
-				}
 				return deferred.promise;
 			}
 		}

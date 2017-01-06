@@ -39,7 +39,7 @@
 		// =============================================
 
 		function init() {
-
+			self.logs.push({date: new Date(), source: 'ConsolePanel', message: 'ConsolePanel activated'})
 		}
 
 		$rootScope.$on(ECORE_TREE_SERVICE_EVENTS.LOG, function (evt, data) {
