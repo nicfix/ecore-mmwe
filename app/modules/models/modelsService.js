@@ -1,17 +1,16 @@
+/**
+ * Created by Nicola Sacco on 06/01/2017.
+ */
 (function () {
 	'use strict';
 
 	angular
-		.module('metaModels')
-		.service('metaModelsService', metaModelsService);
+		.module('models')
+		.service('modelsService', ModelsService);
+
 
 	/* @ngInject */
-	function metaModelsService($q, $mdToast, mdeForgeClientService) {
-		/**
-		 * This service is used to load and post meta models from and to disim
-		 * repository
-		 * @type {string}
-		 */
+	function ModelsService($q, $mdToast, mdeForgeClientService) {
 
 		var META_MODELS_PATH_URL = 'api/EcoreMetamodel';
 
@@ -169,9 +168,7 @@
 				return deferred.promise;
 			}
 		}
-
-
-	} // fine service
+	}
 
 })();
 

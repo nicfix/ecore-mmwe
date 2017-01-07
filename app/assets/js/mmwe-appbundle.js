@@ -1,7 +1,7 @@
 /*!
-* mmwe - v0.0.1 - MIT LICENSE 2016-10-26. 
-* @author Nicola Sacco
-*/
+ * mmwe - v0.0.1 - MIT LICENSE 2016-10-26.
+ * @author Nicola Sacco
+ */
 (function () {
 	'use strict';
 
@@ -74,16 +74,16 @@
 
 })();
 
-(function() {
+(function () {
 	'use strict';
 
 	/**
-	* @ngdoc function
-	* @name app.module:homeModule
-	* @description
-	* # homeModule
-	* Module of the app
-	*/
+	 * @ngdoc function
+	 * @name app.module:homeModule
+	 * @description
+	 * # homeModule
+	 * Module of the app
+	 */
 
 	angular.module('home', []);
 })();
@@ -93,7 +93,6 @@
  */
 angular
 	.module('metaModels', ['metaModelsEditor', 'metaModelsBrowser']);
-
 
 
 /**
@@ -112,12 +111,12 @@ angular
 angular
 	.module('metaModelsEditor', ['treeEcore', 'treeControl', 'md.data.table', 'picardy.fontawesome', 'uuid'])
 	.constant('META_MODELS_EDITOR',
-	{
-		'EVENTS': {
-			'MODEL_UPDATE_EVENT': 'META_MODELS_EDITOR.EVENTS.MODEL_UPDATE_EVENT'
-		},
-		'BASE_PATH': '/app/modules/metaModelsEditor'
-	});
+		{
+			'EVENTS': {
+				'MODEL_UPDATE_EVENT': 'META_MODELS_EDITOR.EVENTS.MODEL_UPDATE_EVENT'
+			},
+			'BASE_PATH': '/app/modules/metaModelsEditor'
+		});
 
 /**
  * Created by nicolasacco on 25/09/16.
@@ -126,16 +125,15 @@ angular
 	.module('treeEcore', ['uuid'])
 
 
-
 'use strict';
 
-	/**
-	* @ngdoc function
-	* @name app.route:HomeRoute
-	* @description
-	* # HomeRoute
-	* Route of the app
-	*/
+/**
+ * @ngdoc function
+ * @name app.route:HomeRoute
+ * @description
+ * # HomeRoute
+ * Route of the app
+ */
 
 angular.module('mmwe')
 	.config(['$stateProvider', function ($stateProvider) {
@@ -149,7 +147,7 @@ angular.module('mmwe')
 				controllerAs: 'vm'
 			})
 			.state('home.dashboard', {
-				url:'/dashboard',
+				url: '/dashboard',
 				templateUrl: 'app/modules/home/dashboard.html'
 			});
 
@@ -299,12 +297,12 @@ angular.module('metaModels')
 
 		vm.changeProfile = function (ev) {
 			$mdDialog.show({
-				controller: DialogController,
-				templateUrl: 'tabDialog.tmpl.html',
-				parent: angular.element(document.body),
-				targetEvent: ev,
-				clickOutsideToClose: true
-			})
+					controller: DialogController,
+					templateUrl: 'tabDialog.tmpl.html',
+					parent: angular.element(document.body),
+					targetEvent: ev,
+					clickOutsideToClose: true
+				})
 				.then(function (answer) {
 					$mdToast.show(
 						$mdToast.simple()
@@ -537,7 +535,7 @@ angular.module('metaModels')
 		 * Starts loading for metamodels descriptions
 		 */
 		function init() {
-			metaModelsService.loadMetaModelsMetaData({}).then(__onMetaModelsLoaded)
+			metaModelsService.load({}).then(__onMetaModelsLoaded)
 		}
 
 		/**
@@ -654,8 +652,7 @@ angular.module('metaModels')
 
 			self.resource = resourceSet.create({uri: '/model.json'});
 
-			self.resource.get('contents').add(ecoreTreeService.
-				treeElementToEcoreElement(self.editingPackage, null));
+			self.resource.get('contents').add(ecoreTreeService.treeElementToEcoreElement(self.editingPackage, null));
 
 			self.json = self.resource.to();
 
@@ -792,7 +789,7 @@ angular.module('metaModels')
 			 * @param query
 			 * @returns {*}
 			 */
-			loadMetaModelsMetaData: function (query) {
+			load: function (query) {
 
 
 				/**

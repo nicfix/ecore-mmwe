@@ -2,14 +2,14 @@
 	'use strict';
 
 	angular
-		.module('ecoreDecorators')
-		.service('EClassTreeDecoratorService', EClassTreeDecoratorService);
+		.module('ecoreInstanceDecorators')
+		.service('EClassInstanceTreeDecoratorService', EClassInstanceTreeDecoratorService);
 
 	/* @ngInject */
-	function EClassTreeDecoratorService(EcoreElementTreeDecoratorMixinService,
-										ECORE_TYPES,
-										rfc4122,
-										EcoreDecoratorsRepoService) {
+	function EClassInstanceTreeDecoratorService(EcoreElementTreeDecoratorMixinService,
+												ECORE_TYPES,
+												rfc4122,
+												EcoreDecoratorsRepoService) {
 
 		var service = {}
 
@@ -26,7 +26,6 @@
 				ECORE_TYPES.EReference,
 				ECORE_TYPES.EOperation
 			]
-
 
 			ecoreElement.children = ecoreElement.get('eStructuralFeatures').map(function (c) {
 

@@ -22,9 +22,10 @@
 		'ui.router',
 		'md.data.table',
 		'home',
-		'metaModels',
 		'ecoreDecorators',
-		'login'
+		'login',
+		'metaModels',
+		'models'
 	]);
 
 })();

@@ -21,11 +21,17 @@
 	function Menu($http) {
 		// Sample code.
 
-		var menu = [{
-			link: 'metaModels.metaModelsList',
-			name: 'Meta Models',
-			icon: 'folder'
-		}];
+		var menu = [
+			{
+				link: 'metaModels.metaModelsList',
+				name: 'Meta Models',
+				icon: 'folder'
+			},
+			{
+				link: 'models.modelsList',
+				name: 'Models',
+				icon: 'folder'
+			}];
 
 		return {
 			listMenu: function () {

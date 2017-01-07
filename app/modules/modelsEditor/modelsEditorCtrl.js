@@ -1,30 +1,27 @@
 /**
- * Created by nicolasacco on 25/09/16.
+ * Created by Nicola Sacco on 06/01/2017.
  */
 (function () {
 	'use strict';
 
 	angular
-		.module('metaModelsEditor')
-		.controller('MetaModelsEditorController', MetaModelsEditorController);
+		.module('modelsEditor')
+		.controller('ModelsEditorController', ModelsEditorController);
+
 
 	/* @ngInject */
-	function MetaModelsEditorController($stateParams,
-										$timeout,
-										metaModelsService,
-										$mdToast,
-										META_MODELS,
-										EcoreDecoratorsRepoService) {
-
+	function ModelsEditorController($stateParams,
+									$timeout,
+									modelsService,
+									$mdToast,
+									META_MODELS) {
 		var self = this;
 
 		self.editingPackage = undefined;
 
-
 		self.init = init;
 		self.store = __store;
 		self.delete = __delete;
-
 
 		self.PANELS_MODE_AS_CARD = {
 			label: 'as card',
@@ -40,7 +37,6 @@
 			value: 'asTree'
 		}
 
-
 		self.ORIENTATION_ROW = 'row';
 		self.ORIENTATION_COLUMN = 'column';
 
@@ -54,37 +50,35 @@
 			}
 		}
 
-
 		init();
 
-
 		function init() {
-			EcoreDecoratorsRepoService.clearElements();
-			self.metaModelId = $stateParams.modelId;
-			if (self.metaModelId != null && self.metaModelId != '') {
-				__loadMetaModel();
+			self.modelId = $stateParams.modelId;
+			self.metaModelId = $stateParams.metaModelId;
+
+			if (self.modelId != null && self.modelId != '') {
+				__loadModel();
 			} else {
-				__initNewMetaModel();
+				__initNewModel();
 			}
 		}
 
 
-		function __loadMetaModel() {
+		function __loadModel() {
 			var resourceSet = Ecore.ResourceSet.create();
-			self.title = self.metaModelId;
-
-			metaModelsService.loadById(self.metaModelId)
-				.then(function (metaModelMetaData) {
-					metaModelsService.loadFile(self.metaModelId)
-						.then(function (metaModel) {
+			self.title = self.modelId;
+			modelsService.loadById(self.modelId)
+				.then(function (modelMetaData) {
+					modelsService.loadFile(self.modelId)
+						.then(function (model) {
 							try {
 								var initModel = function (model) {
 									self.editingPackage = model.get('contents').first();
 									self.selectedElement = self.editingPackage;
-									self.metaModel = metaModelMetaData;
+									self.model = modelMetaData;
 								}
-								self.resource = resourceSet.create({uri: metaModelMetaData.nsURI});
-								self.resource.load(metaModel, initModel);
+								self.resource = resourceSet.create({uri: modelMetaData.nsURI});
+								self.resource.load(model, initModel);
 								self.modelIsSupported = true;
 							} catch (e) {
 								self.modelIsSupported = false;
@@ -94,11 +88,12 @@
 		}
 
 
-		function __initNewMetaModel() {
+		function __initNewModel() {
+
 			var resourceSet = Ecore.ResourceSet.create();
-			self.metaModel = {
-				_class: "org.mdeforge.business.model.EcoreMetamodel",
-				name: 'aMetaModel.ecore',
+			self.model = {
+				_class: "org.mdeforge.business.model.EcoreModel",
+				name: 'aModel.ecore',
 				author: {},
 				file: {
 					fileName: ''
@@ -118,37 +113,36 @@
 		}
 
 		function __delete() {
-			metaModelsService.destroy(self.metaModel.id).then(function (response) {
-				$state.go(META_MODELS.ROUTES.metaModelsEditor)
+			modelsService.destroy(self.model.id).then(function (response) {
+				$state.go(META_MODELS.ROUTES.modelsEditor)
 			})
 		}
 
 		function __store() {
-			var mm = angular.copy(self.metaModel)
+			var mm = angular.copy(self.model)
 			var xmi = self.resource.to(Ecore.XMI, true);
 			mm.file.content = btoa(xmi + '\n');
 
-			if (mm.file.fileName != self.metaModel.name) {
-				mm.file.fileName = self.metaModel.name;
+			if (mm.file.fileName != self.model.name) {
+				mm.file.fileName = self.model.name;
 			}
 			else {
 				mm.file.fileName += '_updated'
 			}
 			self.posting = true;
 
-			metaModelsService.store(mm).then(function (response) {
+			modelsService.store(mm).then(function (response) {
 
 				$timeout(function () {
 					self.posting = false;
-					self.metaModel = response;
+					self.model = response;
 				}, 1000);
 
 			}, function () {
 				self.posting = false;
 			});
 		}
-
-	} // fine controller
+	}
 
 })();
 

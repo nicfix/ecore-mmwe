@@ -6,10 +6,10 @@
 
 	angular
 		.module('metaModelsBrowser')
-		.controller('MetaModelsListController', MetaModelsListController);
+		.controller('MetaModelSelectorController', MetaModelSelectorController);
 
 	/* @ngInject */
-	function MetaModelsListController($state, $scope, $mdToast, AntiBounceService, metaModelsService, META_MODELS) {
+	function MetaModelSelectorController($state, $scope, $mdToast, AntiBounceService, metaModelsService, MODELS) {
 
 		var self = this;
 
@@ -27,7 +27,6 @@
 		self.init = init;
 		self.editMetamodel = __editMetaModel;
 		self.searchMetaModel = __searchMetaModel;
-		self.newMetaModel = __newMetaModel;
 
 
 		/**
@@ -44,6 +43,11 @@
 			$scope.$watch('ctrl.searchText', __searchMetaModel)
 		}
 
+		/**
+		 *
+		 * @param search
+         * @private
+         */
 		function __searchMetaModel(search) {
 			if (angular.isDefined(search) && search != '') {
 				AntiBounceService.do(function () {
@@ -55,7 +59,10 @@
 			}
 		}
 
-
+		/**
+		 *
+		 * @private
+         */
 		function __loadLastSearch() {
 			var lastSearch = JSON.parse(localStorage.getItem(self.LAST_SEARCH_STORAGE_KEY))
 			if (angular.isDefined(lastSearch) && lastSearch != null) {
@@ -64,6 +71,10 @@
 			}
 		}
 
+		/**
+		 *
+		 * @private
+         */
 		function __updateUserLastSearch() {
 			localStorage.setItem(self.LAST_SEARCH_STORAGE_KEY, JSON.stringify({
 				searchText: self.searchText,
@@ -105,16 +116,7 @@
 		 * @private
 		 */
 		function __editMetaModel(mm) {
-			$state.go(META_MODELS.ROUTES.metaModelsEditor, {modelId: mm.id})
-		}
-
-		/**
-		 * Redirects to the metaModelsEditor
-		 * with no metaModel id
-		 * @private
-		 */
-		function __newMetaModel() {
-			$state.go(META_MODELS.ROUTES.metaModelsEditor)
+			$state.go(MODELS.ROUTES.modelsEditor, {metaModelId: mm.id})
 		}
 
 	} // fine controller

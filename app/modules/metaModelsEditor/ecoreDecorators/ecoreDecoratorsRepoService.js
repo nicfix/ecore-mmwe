@@ -32,6 +32,11 @@
 
 			getElements: function (type) {
 				return REGISTERED_ELEMENTS[type];
+			},
+
+			clearElements: function () {
+				REGISTERED_ELEMENTS = [];
+
 			}
 		}
 
