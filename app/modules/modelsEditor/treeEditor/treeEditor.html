@@ -41,25 +41,14 @@
 	<md-content class="md-padding" layout="column">
 
 		<treecontrol class="tree-light"
-					 tree-model="ctrl.treeEcorePackage"
+					 tree-model="ctrl.tree"
 					 options="ctrl.treeOptions"
 					 selected-node="ctrl.selectedElement"
 					 expanded-nodes="ctrl.expandedElements">
+
+
 			<span>
-				<ng-md-icon icon="{{ctrl.ECORE_TYPE_ICONS[node.eClass.values.name]}}"></ng-md-icon>
-			 </span>
-			{{node.values.name}}
-			<span ng-switch="node._type">
-
-				<span ng-if="node.eClass.values.name==ctrl.ECORE_TYPES.EClass"
-					  ng-repeat="tag in node.tags">
-					&nbsp;<span ng-if="$index==0">-></span> <span ng-if="$index!=0">,</span> {{tag}}
-				</span>
-
-				<span
-					ng-if="node.eClass.values.name==ctrl.ECORE_TYPES.EAttribute || node.eClass.values.name==ctrl.ECORE_TYPES.EReference">
-					&nbsp;:&nbsp;{{node.values.eType.values.name}}
-				</span>
+				BINGO {{node.eClass.values.name}}
 
 			</span>
 		</treecontrol>

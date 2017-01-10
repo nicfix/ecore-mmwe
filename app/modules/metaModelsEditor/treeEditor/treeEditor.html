@@ -92,10 +92,8 @@
 								  ng-repeat="child_type in ctrl.getSupportedChildrenTypes()">
 						<ng-md-icon icon="{{ctrl.ECORE_TYPE_ICONS[child_type]}}" class="md-avatar-icon"></ng-md-icon>
 
-						<div class="md-list-item-text" ng-class="{'md-offset': phone.options.offset }">
+						<div class="md-list-item-text">
 							<h3> {{ child_type }} </h3>
-
-							<p> {{ phone.type }} </p>
 						</div>
 
 						<ng-md-icon icon="keyboard_arrow_right"></ng-md-icon>

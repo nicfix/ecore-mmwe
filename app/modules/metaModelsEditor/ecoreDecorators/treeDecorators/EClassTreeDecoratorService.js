@@ -2,14 +2,14 @@
 	'use strict';
 
 	angular
-		.module('ecoreInstanceDecorators')
-		.service('EClassInstanceTreeDecoratorService', EClassInstanceTreeDecoratorService);
+		.module('ecoreDecorators')
+		.service('EClassTreeDecoratorService', EClassTreeDecoratorService);
 
 	/* @ngInject */
-	function EClassInstanceTreeDecoratorService(EcoreElementTreeDecoratorMixinService,
-												ECORE_TYPES,
-												rfc4122,
-												EcoreDecoratorsRepoService) {
+	function EClassTreeDecoratorService(EcoreElementTreeDecoratorMixinService,
+										ECORE_TYPES,
+										rfc4122,
+										EcoreDecoratorsRepoService) {
 
 		var service = {}
 
@@ -47,7 +47,11 @@
 			}
 
 			ecoreElement.removeChildren = function (child) {
-
+				if (ecoreElement.children.indexOf(child) != -1) {
+					ecoreElement.children.splice(ecoreElement.children.indexOf(child), 1)
+					var structFeatures = ecoreElement.get('eStructuralFeatures');
+					structFeatures.remove(child);
+				}
 			}
 
 			return ecoreElement

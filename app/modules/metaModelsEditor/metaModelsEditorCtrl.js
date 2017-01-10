@@ -83,7 +83,7 @@
 									self.selectedElement = self.editingPackage;
 									self.metaModel = metaModelMetaData;
 								}
-								self.resource = resourceSet.create({uri: metaModelMetaData.nsURI});
+								self.resource = resourceSet.create({uri: metaModelMetaData.uri[0]});
 								self.resource.load(metaModel, initModel);
 								self.modelIsSupported = true;
 							} catch (e) {

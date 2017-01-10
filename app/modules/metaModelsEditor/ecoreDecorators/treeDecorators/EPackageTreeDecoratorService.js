@@ -6,7 +6,7 @@
 		.service('EPackageTreeDecoratorService', EPackageTreeDecoratorService);
 
 	/* @ngInject */
-	function EPackageTreeDecoratorService(EcoreElementTreeDecoratorMixinService,
+	function EPackageTreeDecoratorService($rootScope, ECORE_TREE_SERVICE_EVENTS, EcoreElementTreeDecoratorMixinService,
 										  ECORE_TYPES,
 										  rfc4122) {
 
@@ -18,11 +18,45 @@
 			ecoreElement.id = rfc4122.v4();
 
 			var classifiers = ecoreElement.get('eClassifiers').map(function (c) {
-				return service.getDecoratorByElement(c).decorate(c);
+				var decorator = service.getDecoratorByElement(c);
+				if (angular.isDefined(decorator)) {
+					return decorator.decorate(c);
+				} else {
+					var log = {
+						date: new Date(),
+						source: 'EPackageTreeDecoratorService',
+					}
+					try {
+						log.message = "No decorator for " + c.eClass.values.name
+						$rootScope.$broadcast(ECORE_TREE_SERVICE_EVENTS.LOG, log)
+						console.log(log.message);
+					} catch (e) {
+						log.message = "Error " + e
+						$rootScope.$broadcast(ECORE_TREE_SERVICE_EVENTS.LOG, log)
+					}
+					return c;
+				}
 			});
 
 			var subPackages = ecoreElement.get('eSubPackages').map(function (c) {
-				return service.getDecoratorByElement(c).decorate(c);
+				var decorator = service.getDecoratorByElement(c);
+				if (angular.isDefined(decorator)) {
+					return decorator.decorate(c);
+				} else {
+					var log = {
+						date: new Date(),
+						source: 'EPackageTreeDecoratorService',
+					}
+					try {
+						log.message = "No decorator for " + c.eClass.values.name
+						$rootScope.$broadcast(ECORE_TREE_SERVICE_EVENTS.LOG, log)
+						console.log(log.message);
+					} catch (e) {
+						log.message = "Error " + e
+						$rootScope.$broadcast(ECORE_TREE_SERVICE_EVENTS.LOG, log)
+					}
+					return c;
+				}
 			});
 
 			ecoreElement.supportedChildrenTypes = [

@@ -1,50 +1,31 @@
 <md-content md-theme="docs-dark" class="md-toolbar-tools">
 	<ng-md-icon icon="description"></ng-md-icon>
 	&nbsp;
-	<md-subheader ng-if="ctrl.metaModel && ctrl.editingPackage && ctrl.modelIsSupported && !ctrl.posting">
+	<md-subheader>
 		{{ctrl.model.name}}
 	</md-subheader>
-	<md-subheader ng-if="!ctrl.editingPackage && ctrl.modelIsSupported!=false">Downloading model</md-subheader>
-	<md-subheader ng-if="ctrl.posting && ctrl.modelIsSupported ">Posting updates</md-subheader>
-	<md-subheader ng-if="ctrl.modelIsSupported==false">Sorry this model is unsupported at the moment, feel free
-		to
-		contact us.
-	</md-subheader>
 	<span flex></span>
-	<md-button class="md-fab md-mini"
-			   ng-if="ctrl.model && ctrl.editingPackage && ctrl.modelIsSupported && !ctrl.posting"
-			   ng-click="ctrl.store()">
-		<ng-md-icon icon="save"></ng-md-icon>
-	</md-button>
-	<md-button class="md-fab md-mini"
-			   ng-if="ctrl.model && ctrl.editingPackage && ctrl.modelIsSupported && !ctrl.posting"
-			   ng-click="ctrl.delete()">
-		<ng-md-icon icon="delete"></ng-md-icon>
-	</md-button>
-	<md-button class="md-fab md-mini"
-			   ng-if="ctrl.model && ctrl.editingPackage && ctrl.modelIsSupported && !ctrl.posting">
-		<ng-md-icon icon="open_in_new"></ng-md-icon>
-	</md-button>
 
 </md-content>
 
 <md-progress-linear md-theme="docs-dark" md-mode="indeterminate"
-					ng-if="(!ctrl.editingPackage && !ctrl.model)||ctrl.posting"></md-progress-linear>
+					ng-if="ctrl.loading"></md-progress-linear>
 
 
-<div flex layout="row" layout-fill layout-align="center"
-	 ng-if="ctrl.editingPackage && ctrl.modelIsSupported">
+<div flex layout="row" layout-fill layout-align="center center" ng-if="ctrl.metaModel">
+
+	<root-element-selector-directive ng-if="!ctrl.rootElement" on-root-element-selected="ctrl.onRootElementSelected"
+									 flex="50">
+
+	</root-element-selector-directive>
+
+	<decorated-tree-ecore-instance-editor flex="50" layout="column"
+										  root-element="ctrl.rootElement"
+										  ng-if="ctrl.rootElement">
+	</decorated-tree-ecore-instance-editor>
 
 
-	<!--decorated-tree-ecore-editor flex="50" layout="column"
-								 ecore-resource="ctrl.resource"
-								 editing-package="ctrl.editingPackage"
-								 selected-element="ctrl.selectedElement"
-								 ng-if="ctrl.settings.editor.mode.value==ctrl.EDITOR_MODE_AS_TREE.value">
-	</decorated-tree-ecore-editor>
-
-
-	<md-card flex="50" layout="column" ng-if="ctrl.settings.panels.mode.value==ctrl.PANELS_MODE_AS_CARD.value">
+	<!--md-card flex="50" layout="column" ng-if="ctrl.settings.panels.mode.value==ctrl.PANELS_MODE_AS_CARD.value">
 		<md-toolbar>
 			<div class="md-toolbar-tools">
 				<ng-md-icon icon="tab"></ng-md-icon>

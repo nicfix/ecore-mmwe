@@ -18,9 +18,7 @@
 			templateUrl: MODELS_EDITOR.BASE_PATH + '/treeEditor/treeEditor.html',
 			restrict: 'EA',
 			scope: {
-				ecoreResource: '=',
-				metaModelPackage: '=',
-				ecoreInstanceRootElement: '=',
+				rootElement: '=',
 				selectedElement: '=?'
 			}
 		};
@@ -98,10 +96,12 @@
 
 
 		function __buildTree() {
-			self.treeEcorePackage = [
-				EcoreDecoratorsRepoService
-					.getDecorator(ECORE_DECORATOR.TREE_DECORATORS_PREFIX + self.editingPackage.eClass.values.name)
-					.decorate(self.editingPackage)
+			/*
+			 EcoreDecoratorsRepoService
+			 .getDecorator(ECORE_DECORATOR.TREE_DECORATORS_PREFIX + self.editingPackage.eClass.values.name)
+			 .decorate(self.editingPackage)*/
+			self.tree = [
+				self.rootElement
 			]
 		}
 
@@ -134,11 +134,9 @@
 
 		}
 
-
 		$scope.$watch('ctrl.selectedElement', function (newVal) {
 			notifyUpdate();
 		})
-
 
 		self.showPrerenderedDialog = function (ev) {
 			$mdDialog.show({
@@ -149,7 +147,6 @@
 				clickOutsideToClose: true
 			});
 		};
-
 
 		function notifyUpdate() {
 			$rootScope.$broadcast(META_MODELS_EDITOR.EVENTS.MODEL_UPDATE_EVENT);

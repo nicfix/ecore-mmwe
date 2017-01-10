@@ -27,10 +27,10 @@
 				mdeForgeClientService.getInstance()
 					.doGetRequest(ARTIFACTS_PATH_URL + '/search/' + search)
 					.then(
-						function (response) {
-							deferred.resolve(response.data);
-						}, deferred.reject
-					);
+					function (response) {
+						deferred.resolve(response.data);
+					}, deferred.reject
+				);
 
 				return deferred.promise
 			},
@@ -51,10 +51,10 @@
 				mdeForgeClientService.getInstance()
 					.doGetRequest(META_MODELS_PATH_URL + '/' + folder + '?limit=10')
 					.then(
-						function (response) {
-							deferred.resolve(response.data);
-						}, deferred.reject
-					);
+					function (response) {
+						deferred.resolve(response.data);
+					}, deferred.reject
+				);
 
 				return deferred.promise
 			},
@@ -77,10 +77,10 @@
 				mdeForgeClientService.getInstance()
 					.doGetRequest(META_MODELS_PATH_URL + '/' + id)
 					.then(
-						function (response) {
-							deferred.resolve(response.data);
-						}, deferred.reject
-					);
+					function (response) {
+						deferred.resolve(response.data);
+					}, deferred.reject
+				);
 
 				return deferred.promise;
 			},
@@ -102,10 +102,10 @@
 				mdeForgeClientService.getInstance()
 					.doGetRequest(META_MODELS_PATH_URL + '/metamodelJsonFormat/' + id)
 					.then(
-						function (response) {
-							deferred.resolve(response.data);
-						}, deferred.reject
-					);
+					function (response) {
+						deferred.resolve(response.data);
+					}, deferred.reject
+				);
 
 				return deferred.promise;
 			},
@@ -127,10 +127,10 @@
 				mdeForgeClientService.getInstance()
 					.doDeleteRequest(META_MODELS_PATH_URL + '/' + id + '/')
 					.then(
-						function (response) {
-							deferred.resolve(response.data);
-						}, deferred.reject
-					);
+					function (response) {
+						deferred.resolve(response.data);
+					}, deferred.reject
+				);
 
 				return deferred.promise;
 			},
@@ -151,20 +151,20 @@
 					mdeForgeClientService.getInstance()
 						.doPutRequest(META_MODELS_PATH_URL, data)
 						.then(
-							function (response) {
-								$mdToast.show($mdToast.simple().textContent('Stored :)'));
-								deferred.resolve(response.data);
-							}, deferred.reject
-						);
+						function (response) {
+							$mdToast.show($mdToast.simple().textContent('Stored :)'));
+							deferred.resolve(response.data);
+						}, deferred.reject
+					);
 				} else {
 					mdeForgeClientService.getInstance()
 						.doPostRequest(META_MODELS_PATH_URL, data)
 						.then(
-							function (response) {
-								$mdToast.show($mdToast.simple().textContent('Stored :)'));
-								deferred.resolve(response.data);
-							}, deferred.reject
-						);
+						function (response) {
+							$mdToast.show($mdToast.simple().textContent('Stored :)'));
+							deferred.resolve(response.data);
+						}, deferred.reject
+					);
 				}
 				return deferred.promise;
 			}
