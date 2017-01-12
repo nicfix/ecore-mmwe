@@ -48,8 +48,7 @@
 
 
 			<span>
-				BINGO {{node.eClass.values.name}}
-
+				{{node.eClass.values.name}} <span ng-if="node.values.name">({{node.values.name}})</span>
 			</span>
 		</treecontrol>
 	</md-content>
@@ -73,7 +72,7 @@
 
 			<md-content layout-padding>
 
-				<p>What do you want to add to {{ctrl.selectedElement._type}} named <strong>{{ctrl.selectedElement.values.name}}</strong>
+				<p>What do you want to add to {{ctrl.selectedElement.eClass.values.name}}
 					?</p>
 
 				<md-list>
@@ -82,9 +81,7 @@
 						<ng-md-icon icon="{{ctrl.ECORE_TYPE_ICONS[child_type]}}" class="md-avatar-icon"></ng-md-icon>
 
 						<div class="md-list-item-text" ng-class="{'md-offset': phone.options.offset }">
-							<h3> {{ child_type }} </h3>
-
-							<p> {{ phone.type }} </p>
+							<h3> {{ child_type.values.eType.values.name }} </h3>
 						</div>
 
 						<ng-md-icon icon="keyboard_arrow_right"></ng-md-icon>

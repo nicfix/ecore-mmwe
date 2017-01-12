@@ -34,7 +34,7 @@
 												ECORE_TYPES,
 												$mdDialog,
 												$rootScope,
-												META_MODELS_EDITOR) {
+												META_MODELS_EDITOR, rfc4122) {
 
 		var self = this;
 
@@ -96,10 +96,6 @@
 
 
 		function __buildTree() {
-			/*
-			 EcoreDecoratorsRepoService
-			 .getDecorator(ECORE_DECORATOR.TREE_DECORATORS_PREFIX + self.editingPackage.eClass.values.name)
-			 .decorate(self.editingPackage)*/
 			self.tree = [
 				self.rootElement
 			]
@@ -111,16 +107,36 @@
 		}
 
 		function doCreateChild(child_type) {
-			var newElement = self.selectedElement.newChildren(child_type);
+			var newElement = child_type.values.eType.create();
+
+			newElement.id = rfc4122.v4();
+
+			self.selectedElement.values[child_type.values.name] = newElement;
+
+			if (angular.isUndefined(self.selectedElement.children))
+				self.selectedElement.children = []
+
+			self.selectedElement.children.push(newElement);
+
 			self.creatingElement = false;
+
 			$mdDialog.hide();
+
 			self.expandedElements.push(self.selectedElement);
 			//self.selectedElement = newElement;
 
 		}
 
 		function getSupportedChildrenTypes() {
-			return self.selectedElement.supportedChildrenTypes;
+
+			var childTypes = [];
+			if (angular.isDefined(self.selectedElement)) {
+				childTypes = self.selectedElement.eClass.get('eReferences').map(function (c) {
+					return c;
+				});
+			}
+			return childTypes;
+
 		}
 
 		function removeChild() {

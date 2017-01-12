@@ -94,6 +94,7 @@
 					.hideDelay(3000)
 			);
 			self.rootElement = element.create();
+			self.selectedElement = self.rootElement;
 		}
 
 

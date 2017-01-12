@@ -1,5 +1,5 @@
 <div class="md-padding" layout-fill layout="column" flex layout-align="center start">
-	<div layout="row" flex="50">
+	<div layout="row">
 		<md-card flex="50">
 			<md-toolbar class="md-hue-2">
 				<div class="md-toolbar-tools">
@@ -11,10 +11,11 @@
 			</md-toolbar>
 			<md-card-content>
 				<h2>Hi {{vm.user.username}},</h2>
+
 				<p>
 					<strong>MMWE</strong> a.k.a. <strong>Meta Model Web Editor</strong>
-					allows you to create, modify and use Ecore (EMOF) based
-					Meta/Final Models defined and stored in DISIM's repository.
+					allows you to create and edit Ecore (EMOF) based
+					Meta/Final Models stored in <a href="www.mdeForge.org">mdeForge.org</a>.
 				</p>
 
 				<p>
@@ -28,7 +29,13 @@
 			</md-card-content>
 			<span flex></span>
 			<md-card-actions layout="row" layout-align="end center">
-				<a md-button class="md-primary" href="https://github.com/nicfix/ecore-mmwe">Learn more
+				<a md-button class="md-primary" href="https://github.com/nicfix/ecore-mmwe">
+					<img class="png-icon" src="/app/assets/images/GitHub-Mark-32px.png" style="width: 16px; height: 16px;">
+					MMWE
+				</a>
+				<a md-button class="md-primary" href="https://github.com/MDEGroup/MDEForge">
+					<img class="png-icon" src="/app/assets/images/GitHub-Mark-32px.png" style="width: 16px; height: 16px;">
+					mdeForge.org
 				</a>
 			</md-card-actions>
 		</md-card>

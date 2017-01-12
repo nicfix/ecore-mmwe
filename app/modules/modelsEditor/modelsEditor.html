@@ -12,7 +12,7 @@
 					ng-if="ctrl.loading"></md-progress-linear>
 
 
-<div flex layout="row" layout-fill layout-align="center center" ng-if="ctrl.metaModel">
+<div flex layout="row" layout-fill layout-align="center start" ng-if="ctrl.metaModel">
 
 	<root-element-selector-directive ng-if="!ctrl.rootElement" on-root-element-selected="ctrl.onRootElementSelected"
 									 flex="50">
@@ -20,12 +20,14 @@
 	</root-element-selector-directive>
 
 	<decorated-tree-ecore-instance-editor flex="50" layout="column"
+										  selected-element="ctrl.selectedElement"
 										  root-element="ctrl.rootElement"
 										  ng-if="ctrl.rootElement">
 	</decorated-tree-ecore-instance-editor>
 
 
-	<!--md-card flex="50" layout="column" ng-if="ctrl.settings.panels.mode.value==ctrl.PANELS_MODE_AS_CARD.value">
+	<md-card flex="50" layout="column"
+			 ng-if="ctrl.rootElement && ctrl.settings.panels.mode.value==ctrl.PANELS_MODE_AS_CARD.value">
 		<md-toolbar>
 			<div class="md-toolbar-tools">
 				<ng-md-icon icon="tab"></ng-md-icon>
@@ -39,25 +41,16 @@
 		<md-tabs md-dynamic-height md-border-bottom>
 			<md-tab label="Properties" layout-fill>
 				<md-content layout="column">
-					<tree-ecore-properties-editor ng-if="ctrl.selectedElement"
-												  root-tree-ecore-element="ctrl.editingPackage"
-												  tree-ecore-element="ctrl.selectedElement">
+					<ecore-instance-properties-editor ng-if="ctrl.selectedElement"
+													  meta-model="ctrl.metaModel"
+													  root-ecore-element="ctrl.rootElement"
+													  ecore-element="ctrl.selectedElement">
 
-					</tree-ecore-properties-editor>
+					</ecore-instance-properties-editor>
 				</md-content>
-			</md-tab>
-			<md-tab label="Console" layout-fill>
-				<md-content layout="column">
-					<console-panel>
-
-					</console-panel>
-				</md-content>
-			</md-tab>
-			<md-tab label="File" ng-if="ctrl.model">
-				<meta-data-panel meta-model="ctrl.model"></meta-data-panel>
 			</md-tab>
 		</md-tabs>
-	</md-card-->
+	</md-card>
 
 </div>
 

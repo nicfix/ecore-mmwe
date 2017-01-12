@@ -36,7 +36,6 @@
 
 			clearElements: function () {
 				REGISTERED_ELEMENTS = [];
-
 			}
 		}
 
