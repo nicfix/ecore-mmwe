@@ -27,7 +27,7 @@
 					   ng-click="ctrl.addChild()">
 				<ng-md-icon icon="add_circle_outline"></ng-md-icon>
 			</md-button>
-			<md-button class="md-fab md-mini" ng-if="ctrl.selectedElement.eContainer"
+			<md-button class="md-fab md-mini"
 					   ng-click="ctrl.removeChild()">
 				<ng-md-icon icon="remove_circle_outline"></ng-md-icon>
 			</md-button>
@@ -70,32 +70,29 @@
 				</div>
 			</md-toolbar>
 
-			<md-content layout-padding>
+			<md-content layout-padding
+			>
 
 				<p>What do you want to add to {{ctrl.selectedElement.eClass.values.name}}
 					?</p>
 
 				<md-list>
-					<md-list-item class="md-2-line" ng-click="ctrl.doCreateChild(child_type)"
+					<md-list-item class="md-2-line"
+								  ng-click="ctrl.doCreateChild(child_type)"
 								  ng-repeat="child_type in ctrl.getSupportedChildrenTypes()">
 						<ng-md-icon icon="{{ctrl.ECORE_TYPE_ICONS[child_type]}}" class="md-avatar-icon"></ng-md-icon>
 
 						<div class="md-list-item-text" ng-class="{'md-offset': phone.options.offset }">
-							<h3> {{ child_type.values.eType.values.name }} </h3>
+							<span><h3> {{ child_type.values.eType.values.name }} </h3></span><span> <p>( field: {{child_type.values.name}} )</p></span>
 						</div>
+
 
 						<ng-md-icon icon="keyboard_arrow_right"></ng-md-icon>
 
 					</md-list-item>
 
-					<!--md-button class="md-fab md-mini"
-							   aria-label="{{child_type}}"
-							   ng-click="ctrl.doCreateChild(child_type)"
-							   ng-repeat="child_type in ctrl.getSupportedChildrenTypes()">
-						<ng-md-icon icon="{{ctrl.ECORE_TYPE_ICONS[child_type]}}"></ng-md-icon>
-					</md-button-->
-
 				</md-list>
+			</md-content>
 		</md-dialog>
 	</div>
 </div>

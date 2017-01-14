@@ -111,7 +111,14 @@
 
 			newElement.id = rfc4122.v4();
 
-			self.selectedElement.values[child_type.values.name] = newElement;
+			newElement.parent_reference = child_type;
+			newElement.parent = self.selectedElement;
+
+			if (child_type.values.upperBound == 1) {
+				self.selectedElement.values[child_type.values.name] = newElement;
+			} else {
+				self.selectedElement.values[child_type.values.name].add(newElement);
+			}
 
 			if (angular.isUndefined(self.selectedElement.children))
 				self.selectedElement.children = []
@@ -123,11 +130,10 @@
 			$mdDialog.hide();
 
 			self.expandedElements.push(self.selectedElement);
-			//self.selectedElement = newElement;
-
 		}
 
 		function getSupportedChildrenTypes() {
+
 
 			var childTypes = [];
 			if (angular.isDefined(self.selectedElement)) {
@@ -135,16 +141,75 @@
 					return c;
 				});
 			}
-			return childTypes;
+			var supportedChildTypes = [];
 
+			angular.forEach(childTypes, function (item, key) {
+				if (canAddChild(item)) {
+					supportedChildTypes.push(item)
+				}
+			});
+
+			return supportedChildTypes;
+		}
+
+		function canAddChild(reference_instance) {
+
+			/**
+			 * Just be positive in life :)
+			 * @type {boolean}
+			 */
+			var canAdd = true;
+
+			/**
+			 * The actual value of the property represented by the reference_instance in
+			 * the actually editing "selectedElement" instance.
+			 */
+			var actualReferenceValue = self.selectedElement.values[reference_instance.values.name];
+
+			/**
+			 * Multiplicity is one for the selected reference so you can add iff
+			 * the actualReferenceValue is undefined or null ( unset )
+			 */
+			if (reference_instance.values.upperBound == 1) {
+				canAdd = angular.isUndefined(actualReferenceValue) || actualReferenceValue == null
+			}
+
+			/**
+			 * Multiplicity is * for the selected reference so you can add
+			 * in any case
+			 */
+			if (reference_instance.values.upperBound == -1) {
+				canAdd = true;
+			}
+
+			/**
+			 * Multiplicity is set for the selected reference so you can add
+			 * only if actual size of actualReferenceValue is less than
+			 * upperBound defined in reference_instance
+			 */
+			if (reference_instance.values.upperBound > 1) {
+
+				canAdd = actualReferenceValue.size() < reference_instance.values.upperBound;
+			}
+
+			return canAdd;
 		}
 
 		function removeChild() {
 
-			var parent = self.selectedElement.eContainer;
+			var parent = self.selectedElement.parent;
+			var parent_reference = self.selectedElement.parent_reference;
+			if (angular.isDefined(parent) && angular.isDefined(parent_reference)) {
 
-			if (angular.isDefined(parent)) {
-				parent.removeChildren(self.selectedElement);
+
+				if (parent_reference.values.upperBound == 1) {
+					parent.values[parent_reference.values.name] = null;
+				} else {
+					parent.values[parent_reference.values.name].remove(self.selectedElement);
+				}
+
+				parent.children.splice(parent.children.indexOf(self.selectedElement), 1);
+
 				self.selectedElement = parent;
 			}
 
