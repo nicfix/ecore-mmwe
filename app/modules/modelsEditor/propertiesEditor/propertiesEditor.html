@@ -19,6 +19,10 @@
 					   type="number"
 					   ng-model="ctrl.ecoreElement.values[attribute.name]">
 
+				<md-datepicker flex ng-model="ctrl.ecoreElement.values[attribute.name]" md-placeholder="Enter date"
+							   ng-if="attribute.type=='EDate'"></md-datepicker>
+
+
 				<md-checkbox flex ng-if="attribute.type=='EBoolean'"
 							 ng-model="ctrl.ecoreElement.values[attribute.name]">
 				</md-checkbox>

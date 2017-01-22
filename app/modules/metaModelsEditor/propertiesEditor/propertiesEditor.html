@@ -26,7 +26,9 @@
 				<md-select flex ng-if="value.type=='EType'"
 						   ng-model="ctrl.treeEcoreElement.values[property]">
 					<md-option ng-repeat="option in value.supportedValues()" ng-value="option">
+
 						{{option.values.name}}
+
 					</md-option>
 				</md-select>
 
@@ -42,21 +44,6 @@
 					  properties-field="value">
 
 				</span>
-
-				<!--md-select ng-if="property=='eSuperTypes'"
-						   ng-model="ctrl.treeEcoreElement.values[property]" multiple>
-					<md-option ng-repeat="option in ctrl.listOptions(property)| filter: ctrl.notHimSelf"
-							   ng-value="option">
-						{{option.values.name}}
-					</md-option>
-				</md-select>
-
-				<md-select ng-if="ctrl.hasOptions(property) && !ctrl.isMultiple(property) && property!=='eSuperTypes'"
-						   ng-model="ctrl.treeEcoreElement.values[property]">
-					<md-option ng-repeat="option in ctrl.listOptions(property)" ng-value="option.value">
-						{{option.label}}
-					</md-option>
-				</md-select-->
 			</td>
 		</tr>
 		</tbody>

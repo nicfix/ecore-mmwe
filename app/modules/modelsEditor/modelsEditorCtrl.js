@@ -68,8 +68,17 @@
 									self.metaModel = model;
 									__onMetaModelLoaded();
 								}
-								self.resource = resourceSet.create({uri: metaModelMetaData.uri[0]});
-								self.resource.load(metaModel, initModel);
+								try {
+									self.resource = resourceSet.create({uri: metaModelMetaData.uri[0]});
+								} catch (e) {
+									self.resource = resourceSet.create({uri: encodeURI(metaModelMetaData.name)});
+								}
+
+								if (angular.isArray(metaModel))
+									self.resource.load(metaModel[0], initModel);
+								else
+									self.resource.load(metaModel, initModel);
+
 								self.modelIsSupported = true;
 							} catch (e) {
 								self.modelIsSupported = false;
@@ -82,6 +91,7 @@
 			EcoreDecoratorsRepoService
 				.getDecorator(ECORE_DECORATOR.TREE_DECORATORS_PREFIX + self.metaModelRootPackage.eClass.values.name)
 				.decorate(self.metaModelRootPackage)
+
 			self.loading = false;
 		}
 

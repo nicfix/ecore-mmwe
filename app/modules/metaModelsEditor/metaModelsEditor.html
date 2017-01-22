@@ -4,10 +4,10 @@
 <md-content md-theme="docs-dark" class="md-toolbar-tools">
 	<ng-md-icon icon="description"></ng-md-icon>
 	&nbsp;
-	<md-subheader ng-if="ctrl.metaModel && ctrl.editingPackage && ctrl.modelIsSupported && !ctrl.posting">
+	<md-subheader ng-if="ctrl.metaModel && ctrl.editingModel && ctrl.modelIsSupported && !ctrl.posting">
 		{{ctrl.metaModel.name}}
 	</md-subheader>
-	<md-subheader ng-if="!ctrl.editingPackage && ctrl.modelIsSupported!=false">Downloading metamodel</md-subheader>
+	<md-subheader ng-if="!ctrl.editingModel && ctrl.modelIsSupported!=false">Downloading metamodel</md-subheader>
 	<md-subheader ng-if="ctrl.posting && ctrl.modelIsSupported ">Posting updates</md-subheader>
 	<md-subheader ng-if="ctrl.modelIsSupported==false">Sorry this metamodel is unsupported at the moment, feel free
 		to
@@ -15,33 +15,32 @@
 	</md-subheader>
 	<span flex></span>
 	<md-button class="md-fab md-mini"
-			   ng-if="ctrl.metaModel && ctrl.editingPackage && ctrl.modelIsSupported && !ctrl.posting"
+			   ng-if="ctrl.metaModel && ctrl.editingModel && ctrl.modelIsSupported && !ctrl.posting"
 			   ng-click="ctrl.store()">
 		<ng-md-icon icon="save"></ng-md-icon>
 	</md-button>
 	<md-button class="md-fab md-mini"
-			   ng-if="ctrl.metaModel && ctrl.editingPackage && ctrl.modelIsSupported && !ctrl.posting"
+			   ng-if="ctrl.metaModel && ctrl.editingModel && ctrl.modelIsSupported && !ctrl.posting"
 			   ng-click="ctrl.delete()">
 		<ng-md-icon icon="delete"></ng-md-icon>
 	</md-button>
 	<md-button class="md-fab md-mini"
-			   ng-if="ctrl.metaModel && ctrl.editingPackage && ctrl.modelIsSupported && !ctrl.posting"
-	>
+			   ng-if="ctrl.metaModel && ctrl.editingModel && ctrl.modelIsSupported && !ctrl.posting"
+		>
 		<ng-md-icon icon="open_in_new"></ng-md-icon>
 	</md-button>
 
 </md-content>
 <md-progress-linear md-theme="docs-dark" md-mode="indeterminate"
-					ng-if="(!ctrl.editingPackage && !ctrl.metaModel)||ctrl.posting"></md-progress-linear>
+					ng-if="(!ctrl.editingModel && !ctrl.metaModel)||ctrl.posting"></md-progress-linear>
 
 
 <div flex layout="row" layout-fill layout-align="center"
-	 ng-if="ctrl.editingPackage && ctrl.modelIsSupported">
-
+	 ng-if="ctrl.editingModel && ctrl.modelIsSupported">
 
 	<decorated-tree-ecore-editor flex="50" layout="column"
 								 ecore-resource="ctrl.resource"
-								 editing-package="ctrl.editingPackage"
+								 editing-model="ctrl.editingModel"
 								 selected-element="ctrl.selectedElement"
 								 ng-if="ctrl.settings.editor.mode.value==ctrl.EDITOR_MODE_AS_TREE.value">
 	</decorated-tree-ecore-editor>
@@ -62,7 +61,7 @@
 			<md-tab label="Properties" layout-fill>
 				<md-content layout="column">
 					<tree-ecore-properties-editor ng-if="ctrl.selectedElement"
-												  root-tree-ecore-element="ctrl.editingPackage"
+												  root-tree-ecore-element="ctrl.editingModel"
 												  tree-ecore-element="ctrl.selectedElement">
 
 					</tree-ecore-properties-editor>

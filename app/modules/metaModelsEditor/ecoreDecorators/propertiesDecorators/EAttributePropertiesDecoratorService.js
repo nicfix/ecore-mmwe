@@ -7,6 +7,7 @@
 
 	/* @ngInject */
 	function EAttributePropertiesDecoratorService(EcoreElementPropertiesDecoratorMixinService,
+												  EcoreDecoratorsRepoService,
 												  ECORE_TYPES) {
 
 		var service = {}
@@ -41,7 +42,8 @@
 					type: ECORE_TYPES.EType,
 					multiple: false,
 					supportedValues: function () {
-						return [
+						var eDataTypes = EcoreDecoratorsRepoService.getElements(ECORE_TYPES.EDataType)
+						var s_v = [
 							Ecore.EString,
 							Ecore.EInt,
 							Ecore.EFloat,
@@ -49,6 +51,10 @@
 							Ecore.EBoolean,
 							Ecore.EDate
 						]
+						angular.forEach(eDataTypes, function (item) {
+							s_v.push(item);
+						})
+						return s_v;
 					}
 				},
 				'lowerBound': {

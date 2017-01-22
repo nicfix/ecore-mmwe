@@ -19,7 +19,8 @@
 			restrict: 'EA',
 			scope: {
 				rootElement: '=',
-				selectedElement: '=?'
+				selectedElement: '=?',
+				ecoreResource: '='
 			}
 		};
 		return directive;
@@ -233,13 +234,56 @@
 			$rootScope.$broadcast(META_MODELS_EDITOR.EVENTS.MODEL_UPDATE_EVENT);
 		}
 
+
+		function getPlainModel(element) {
+			if (element != null) {
+				var plainElement = {}
+
+				var attributes = element.eClass.get('eAllAttributes').map(function (c) {
+					var attr = c.values;
+					if (angular.isDefined(attr.eType) && attr.eType != null)
+						attr.type = attr.eType.values.name;
+					return attr;
+				});
+
+				angular.forEach(attributes, function (item) {
+					plainElement[item.name] = element.values[item.name]
+				});
+
+				var references = element.eClass.get('eReferences').map(function (c) {
+					return c;
+				});
+
+				angular.forEach(references, function (item) {
+
+					if (item.values.upperBound == 1) {
+						plainElement[item.values.name] = getPlainModel(element.values[item.values.name])
+					} else {
+						plainElement[item.values.name] = element.values[item.values.name].map(function (c) {
+							return getPlainModel(c);
+						})
+					}
+
+				});
+
+				return plainElement;
+			}
+			else {
+				return null;
+			}
+
+		}
+
 		self.export = function () {
 
 			var element = document.createElement('a');
-			element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(JSON.stringify(self.ecoreResource.to(), null, '  ')));
+
+			element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(JSON.stringify(getPlainModel(self.rootElement), null, '  ')));
+
 			element.setAttribute('download', 'export.json');
 
 			element.style.display = 'none';
+
 			document.body.appendChild(element);
 
 			element.click();

@@ -48,9 +48,8 @@
 		$scope.$watch('ctrl.ecoreElement', function () {
 			if (angular.isDefined(self.ecoreElement)) {
 				self.attributes = self.ecoreElement.eClass.get('eAllAttributes').map(function (c) {
-
 					var attr = c.values;
-					if (angular.isDefined(attr.eType))
+					if (angular.isDefined(attr.eType) && attr.eType != null)
 						attr.type = attr.eType.values.name;
 					return attr;
 				});

@@ -19,7 +19,7 @@
 			restrict: 'EA',
 			scope: {
 				ecoreResource: '=',
-				editingPackage: '=',
+				editingModel: '=',
 				selectedElement: '=?'
 			}
 		};
@@ -97,11 +97,13 @@
 
 
 		function __buildTree() {
-			self.treeEcorePackage = [
-				EcoreDecoratorsRepoService
-					.getDecorator(ECORE_DECORATOR.TREE_DECORATORS_PREFIX + self.editingPackage.eClass.values.name)
-					.decorate(self.editingPackage)
-			]
+			self.treeEcorePackage = []
+			angular.forEach(self.editingModel, function (item) {
+				self.treeEcorePackage.push(EcoreDecoratorsRepoService
+					.getDecorator(ECORE_DECORATOR.TREE_DECORATORS_PREFIX + item.eClass.values.name)
+					.decorate(item))
+			})
+
 		}
 
 		function addChild(element) {
@@ -114,8 +116,6 @@
 			self.creatingElement = false;
 			$mdDialog.hide();
 			self.expandedElements.push(self.selectedElement);
-			//self.selectedElement = newElement;
-
 		}
 
 		function getSupportedChildrenTypes() {
@@ -159,12 +159,9 @@
 			var element = document.createElement('a');
 			element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(JSON.stringify(self.ecoreResource.to(), null, '  ')));
 			element.setAttribute('download', 'export.json');
-
 			element.style.display = 'none';
 			document.body.appendChild(element);
-
 			element.click();
-
 			document.body.removeChild(element);
 		}
 

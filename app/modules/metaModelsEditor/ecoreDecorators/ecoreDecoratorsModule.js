@@ -76,7 +76,12 @@ angular
 		/**
 		 *
 		 */
-		EType: "EType"
+		EType: "EType",
+
+		/**
+		 *
+		 */
+		EDataType: "EDataType"
 	})
 	.constant('ECORE_TREE_SERVICE_EVENTS', {
 		/**
@@ -93,11 +98,13 @@ angular
 				   EAttributeTreeDecoratorService,
 				   EReferenceTreeDecoratorService,
 				   EOperationTreeDecoratorService,
+				   EDataTypeTreeDecoratorService,
 				   EPackagePropertiesDecoratorService,
 				   EClassPropertiesDecoratorService,
 				   EAttributePropertiesDecoratorService,
 				   EReferencePropertiesDecoratorService,
-				   EOperationPropertiesDecoratorService) {
+				   EOperationPropertiesDecoratorService,
+				   EDataTypePropertiesDecoratorService) {
 
 		EcoreDecoratorsRepoService
 			.registerDecorator(ECORE_DECORATOR.TREE_DECORATORS_PREFIX + ECORE_TYPES.EOperation,
@@ -120,6 +127,10 @@ angular
 			EPackageTreeDecoratorService);
 
 		EcoreDecoratorsRepoService
+			.registerDecorator(ECORE_DECORATOR.TREE_DECORATORS_PREFIX + ECORE_TYPES.EDataType,
+			EDataTypeTreeDecoratorService);
+
+		EcoreDecoratorsRepoService
 			.registerDecorator(ECORE_DECORATOR.PROPERTIES_DECORATORS_PREFIX + ECORE_TYPES.EPackage,
 			EPackagePropertiesDecoratorService)
 
@@ -139,6 +150,11 @@ angular
 		EcoreDecoratorsRepoService
 			.registerDecorator(ECORE_DECORATOR.PROPERTIES_DECORATORS_PREFIX + ECORE_TYPES.EOperation,
 			EOperationPropertiesDecoratorService)
+
+
+		EcoreDecoratorsRepoService
+			.registerDecorator(ECORE_DECORATOR.PROPERTIES_DECORATORS_PREFIX + ECORE_TYPES.EDataType,
+			EDataTypePropertiesDecoratorService);
 	})
 
 

@@ -79,12 +79,21 @@
 						.then(function (metaModel) {
 							try {
 								var initModel = function (model) {
-									self.editingPackage = model.get('contents').first();
-									self.selectedElement = self.editingPackage;
+									self.selectedElement = model.get('contents').first();
 									self.metaModel = metaModelMetaData;
+									self.editingModel = model.get('contents').map(function (c) {
+										return c;
+									});
 								}
-								self.resource = resourceSet.create({uri: metaModelMetaData.uri[0]});
+
+								try {
+									self.resource = resourceSet.create({uri: metaModelMetaData.uri[0]});
+								} catch (e) {
+									self.resource = resourceSet.create({uri: encodeURI(metaModelMetaData.name)});
+								}
+
 								self.resource.load(metaModel, initModel);
+
 								self.modelIsSupported = true;
 							} catch (e) {
 								self.modelIsSupported = false;
@@ -112,8 +121,13 @@
 				nsURI: ''
 			}))
 
-			self.editingPackage = self.resource.get('contents').first();
-			self.selectedElement = self.editingPackage;
+
+			self.editingModel = self.resource.get('contents').map(function (c) {
+				return c;
+			});
+
+			self.selectedElement = self.resource.get('contents').first();
+
 			self.modelIsSupported = true;
 		}
 

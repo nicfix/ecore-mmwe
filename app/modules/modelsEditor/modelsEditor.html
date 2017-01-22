@@ -22,6 +22,7 @@
 	<decorated-tree-ecore-instance-editor flex="50" layout="column"
 										  selected-element="ctrl.selectedElement"
 										  root-element="ctrl.rootElement"
+										  ecore-resource="ctrl.resource"
 										  ng-if="ctrl.rootElement">
 	</decorated-tree-ecore-instance-editor>
 
@@ -44,7 +45,8 @@
 					<ecore-instance-properties-editor ng-if="ctrl.selectedElement"
 													  meta-model="ctrl.metaModel"
 													  root-ecore-element="ctrl.rootElement"
-													  ecore-element="ctrl.selectedElement">
+													  ecore-element="ctrl.selectedElement"
+						>
 
 					</ecore-instance-properties-editor>
 				</md-content>
