@@ -27,7 +27,7 @@
 	} // fine direttiva
 
 	/* @ngInject */
-	function TreeEcorePropertiesEditorController($scope, EcoreDecoratorsRepoService, ECORE_DECORATOR) {
+	function TreeEcorePropertiesEditorController($scope, EcoreDecoratorsRepoService, ECORE_DECORATOR, ECORE_TYPES) {
 
 		var self = this;
 
@@ -35,7 +35,9 @@
 
 		// metodi
 		self.init = init;
+		self.isTypeSupported = isTypeSupported;
 
+		self.SUPPORTED_TYPES = ECORE_TYPES;
 
 		init();
 
@@ -43,6 +45,10 @@
 
 		function init() {
 
+		}
+
+		function isTypeSupported(typeName) {
+			return angular.isDefined(ECORE_TYPES[typeName]);
 		}
 
 		$scope.$watch('ctrl.ecoreElement', function () {

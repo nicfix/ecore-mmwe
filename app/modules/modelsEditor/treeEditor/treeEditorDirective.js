@@ -86,6 +86,7 @@
 		self.getSupportedChildrenTypes = getSupportedChildrenTypes;
 		self.addChild = addChild;
 		self.removeChild = removeChild;
+		self.getLabel = getLabel;
 
 		init();
 
@@ -289,6 +290,11 @@
 			element.click();
 
 			document.body.removeChild(element);
+		}
+
+
+		function getLabel(node) {
+			return node.values[Object.keys(node.values)[0]];
 		}
 
 

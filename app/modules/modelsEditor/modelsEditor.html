@@ -4,7 +4,24 @@
 	<md-subheader>
 		{{ctrl.model.name}}
 	</md-subheader>
+	<md-subheader>
+		Conforms to: {{ctrl.metaModelMetaData.name}}
+	</md-subheader>
 	<span flex></span>
+	<!--md-button class="md-fab md-mini"
+
+			   ng-disabled>
+		<ng-md-icon icon="save"></ng-md-icon>
+	</md-button>
+	<md-button class="md-fab md-mini"
+			   ng-disabled>
+		<ng-md-icon icon="delete"></ng-md-icon>
+	</md-button-->
+	<md-button class="md-fab md-mini"
+			   ng-if="ctrl.rootElement"
+			   ng-click="ctrl.export()">
+		<ng-md-icon icon="file_download"></ng-md-icon>
+	</md-button>
 
 </md-content>
 
@@ -46,7 +63,7 @@
 													  meta-model="ctrl.metaModel"
 													  root-ecore-element="ctrl.rootElement"
 													  ecore-element="ctrl.selectedElement"
-						>
+					>
 
 					</ecore-instance-properties-editor>
 				</md-content>

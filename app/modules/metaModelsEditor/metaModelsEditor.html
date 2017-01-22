@@ -26,8 +26,8 @@
 	</md-button>
 	<md-button class="md-fab md-mini"
 			   ng-if="ctrl.metaModel && ctrl.editingModel && ctrl.modelIsSupported && !ctrl.posting"
-		>
-		<ng-md-icon icon="open_in_new"></ng-md-icon>
+			   ng-click="ctrl.export()">
+		<ng-md-icon icon="file_download"></ng-md-icon>
 	</md-button>
 
 </md-content>

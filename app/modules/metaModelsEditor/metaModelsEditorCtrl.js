@@ -24,6 +24,7 @@
 		self.init = init;
 		self.store = __store;
 		self.delete = __delete;
+		self.export = _export;
 
 
 		self.PANELS_MODE_AS_CARD = {
@@ -160,6 +161,17 @@
 			}, function () {
 				self.posting = false;
 			});
+		}
+
+		function _export() {
+
+			var element = document.createElement('a');
+			element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(self.resource.to(Ecore.XMI, true)));
+			element.setAttribute('download', 'export.ecore');
+			element.style.display = 'none';
+			document.body.appendChild(element);
+			element.click();
+			document.body.removeChild(element);
 		}
 
 	} // fine controller

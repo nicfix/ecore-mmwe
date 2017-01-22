@@ -27,13 +27,9 @@
 					   ng-click="ctrl.addChild()">
 				<ng-md-icon icon="add_circle_outline"></ng-md-icon>
 			</md-button>
-			<md-button class="md-fab md-mini"
+			<md-button class="md-fab md-mini" ng-if="ctrl.selectedElement.parent"
 					   ng-click="ctrl.removeChild()">
 				<ng-md-icon icon="remove_circle_outline"></ng-md-icon>
-			</md-button>
-			<md-button class="md-fab md-mini"
-					   ng-click="ctrl.export()">
-				<ng-md-icon icon="open_in_new"></ng-md-icon>
 			</md-button>
 		</div>
 	</md-toolbar>
@@ -48,7 +44,7 @@
 
 
 			<span>
-				{{node.eClass.values.name}} <span ng-if="node.values.name">({{node.values.name}})</span>
+				{{node.eClass.values.name}} <span ng-if="ctrl.getLabel(node)">({{ctrl.getLabel(node)}})</span>
 			</span>
 		</treecontrol>
 	</md-content>
