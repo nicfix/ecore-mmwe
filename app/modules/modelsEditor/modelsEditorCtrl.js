@@ -170,6 +170,7 @@
 				self.artifact = model;
 				self.rootElement = loadPlainElement(model.model);
 				self.selectedElement = self.rootElement;
+				self.loading = false;
 			})
 		}
 
@@ -177,24 +178,38 @@
 			var classes = EcoreDecoratorsRepoService.getElements(ECORE_TYPES.EClass);
 			var clazz = classes [element._class];
 			var instance = undefined;
-			if (angular.isDefined(clazz))
+			if (angular.isDefined(clazz)) {
 				instance = clazz.create(element);
+				instance.children = [];
 
-			angular.forEach(element, function (item, key) {
-				if (item != null)
-					if (angular.isDefined(item._class)) {
-						instance.values[key] = loadPlainElement(item);
-					} else {
-						if (angular.isArray(item)) {
-							angular.forEach(item, function (sub_item) {
-								if (angular.isDefined(sub_item._class)) {
-									var subInstance = loadPlainElement(sub_item)
-									instance.values[key].add(subInstance);
-								}
-							})
+				angular.forEach(element, function (item, key) {
+					if (item != null)
+						if (angular.isDefined(item._class)) {
+
+							var child = loadPlainElement(item);
+							instance.values[key] = child;
+							child.parent = instance;
+							/**
+                             * Todo: Find correct reference and assign to child.parent_reference
+							 * Todo: Something like child.parent_reference=clazz.get('eReferences')
+							 */
+
+
+							instance.children.push(instance.values[key]);
+						} else {
+							if (angular.isArray(item)) {
+								angular.forEach(item, function (sub_item) {
+									if (angular.isDefined(sub_item._class)) {
+										var subInstance = loadPlainElement(sub_item);
+										subInstance.parent = instance;
+										instance.values[key].add(subInstance);
+										instance.children.push(subInstance);
+									}
+								})
+							}
 						}
-					}
-			})
+				})
+			}
 
 			return instance;
 
