@@ -8,11 +8,16 @@
 	font-weight: normal;
 }
 
-
-.png-icon{
+.png-icon {
 	margin: 5px auto auto;
 	padding: 0;
 	display: inline-block;
 	background-repeat: no-repeat no-repeat;
 	pointer-events: none;
+}
+
+.bottom-fab {
+	position: fixed !important;
+	bottom: 30px !important;
+	right: 30px !important;
 }

@@ -10,12 +10,15 @@
 
 
 	/* @ngInject */
-	function ModelsService($q, $mdToast, mdeForgeClientService) {
+	function ModelsService($q, $mdToast, mdeForgeClientService, $timeout, rfc4122) {
 
 		var META_MODELS_PATH_URL = 'api/EcoreMetamodel';
 
 		var ARTIFACTS_PATH_URL = 'api/Artifact'
 
+		var FAKE_WAIT_TIME = 500;
+
+		var LOCAL_STORAGE_PREFIX = "mdeForge.model.";
 
 		return {
 
@@ -23,14 +26,17 @@
 			search: function (search) {
 				var deferred = $q.defer();
 
-				mdeForgeClientService.getInstance()
-					.doGetRequest(ARTIFACTS_PATH_URL + '/search/' + search)
-					.then(
-						function (response) {
-							deferred.resolve(response.data);
-						}, deferred.reject
-					);
+				$timeout(function () {
+					var models = [];
 
+					angular.forEach(localStorage, function (item, key) {
+						if (key.indexOf(LOCAL_STORAGE_PREFIX) == 0)
+							models.push(JSON.parse(item));
+					})
+
+					deferred.resolve(models);
+
+				}, FAKE_WAIT_TIME)
 				return deferred.promise
 			},
 
@@ -43,18 +49,17 @@
 			load: function (query, folder) {
 				var deferred = $q.defer();
 
-				if (angular.isUndefined(folder)) {
-					folder = 'shared'
-				}
+				$timeout(function () {
+					var models = [];
 
-				mdeForgeClientService.getInstance()
-					.doGetRequest(META_MODELS_PATH_URL + '/' + folder + '?limit=10')
-					.then(
-						function (response) {
-							deferred.resolve(response.data);
-						}, deferred.reject
-					);
+					angular.forEach(localStorage, function (item, key) {
+						if (key.indexOf(LOCAL_STORAGE_PREFIX) == 0)
+							models.push(JSON.parse(item));
+					})
 
+					deferred.resolve(models);
+
+				}, FAKE_WAIT_TIME)
 				return deferred.promise
 			},
 
@@ -68,18 +73,9 @@
 
 				var deferred = $q.defer();
 
-				/**
-				 * Simulating download of object,
-				 * firstly retrieve the metaModel description json
-				 * and after that download the model from file
-				 */
-				mdeForgeClientService.getInstance()
-					.doGetRequest(META_MODELS_PATH_URL + '/' + id)
-					.then(
-						function (response) {
-							deferred.resolve(response.data);
-						}, deferred.reject
-					);
+				$timeout(function () {
+					deferred.resolve(JSON.parse(localStorage.getItem(LOCAL_STORAGE_PREFIX + id.toString())));
+				}, FAKE_WAIT_TIME)
 
 				return deferred.promise;
 			},
@@ -142,29 +138,15 @@
 
 				var deferred = $q.defer();
 
-				/**
-				 * If id exists than we have to update, if not we have to post
-				 * @see REST specification & guidelines
-				 */
-				if (angular.isDefined(data.id)) {
-					mdeForgeClientService.getInstance()
-						.doPutRequest(META_MODELS_PATH_URL, data)
-						.then(
-							function (response) {
-								$mdToast.show($mdToast.simple().textContent('Stored :)'));
-								deferred.resolve(response.data);
-							}, deferred.reject
-						);
-				} else {
-					mdeForgeClientService.getInstance()
-						.doPostRequest(META_MODELS_PATH_URL, data)
-						.then(
-							function (response) {
-								$mdToast.show($mdToast.simple().textContent('Stored :)'));
-								deferred.resolve(response.data);
-							}, deferred.reject
-						);
+				if (!angular.isDefined(data.id)) {
+					data.id = rfc4122.v4();
 				}
+
+				$timeout(function () {
+					localStorage.setItem(LOCAL_STORAGE_PREFIX + data.id, JSON.stringify(data))
+					deferred.resolve(data);
+				});
+
 				return deferred.promise;
 			}
 		}

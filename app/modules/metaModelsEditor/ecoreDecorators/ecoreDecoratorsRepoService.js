@@ -27,7 +27,11 @@
 				if (!angular.isDefined(REGISTERED_ELEMENTS[type])) {
 					REGISTERED_ELEMENTS[type] = {};
 				}
-				REGISTERED_ELEMENTS[type][element.id] = element;
+
+				if (angular.isDefined(element.eURI))
+					REGISTERED_ELEMENTS[type][element.eURI()] = element;
+				else
+					REGISTERED_ELEMENTS[type][element.id] = element;
 			},
 
 			getElements: function (type) {

@@ -16,7 +16,7 @@
 			templateUrl: META_MODELS_EDITOR.BASE_PATH + '/metaDataPanel.html',
 			restrict: 'EA',
 			scope: {
-				metaModel: '='
+				artifact: '='
 			}
 		};
 		return directive;

@@ -11,9 +11,6 @@
 		<label>Search</label>
 		<input ng-model="ctrl.searchText" type="text" ng-disabled="ctrl.loading">
 	</md-input-container>
-	<md-button class="md-fab md-mini" ng-click="ctrl.newModel()">
-		<ng-md-icon icon="add"></ng-md-icon>
-	</md-button>
 </md-content>
 
 <md-progress-linear md-theme="docs-dark" md-mode="indeterminate" ng-if="ctrl.loading"></md-progress-linear>
@@ -49,7 +46,7 @@
 					</tr>
 					</thead>
 					<tbody md-body>
-					<tr ng-repeat="item in ctrl.items | orderBy : 'name'" ng-click="ctrl.editMetamodel(item)" md-row
+					<tr ng-repeat="item in ctrl.items | orderBy : 'name'" ng-click="ctrl.editModel(item)" md-row
 						style="cursor:pointer;">
 						<td md-cell>{{item.name}}</td>
 						<td md-cell>{{ item.author.firstname }} {{ item.author.lastname }}</td>
@@ -68,3 +65,7 @@
 		</md-list>
 	</md-card>
 </div>
+
+<md-button class="md-fab bottom-fab" ng-click="ctrl.newModel()">
+	<ng-md-icon icon="add"></ng-md-icon>
+</md-button>

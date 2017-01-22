@@ -146,9 +146,10 @@
 			var supportedChildTypes = [];
 
 			angular.forEach(childTypes, function (item, key) {
-				if (canAddChild(item)) {
-					supportedChildTypes.push(item)
-				}
+				if (item.values.eType.values.abstract == false)
+					if (canAddChild(item)) {
+						supportedChildTypes.push(item)
+					}
 			});
 
 			return supportedChildTypes;

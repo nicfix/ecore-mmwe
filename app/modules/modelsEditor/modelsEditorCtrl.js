@@ -13,11 +13,13 @@
 	function ModelsEditorController($stateParams,
 									$state,
 									modelsService,
+									ActualUserService,
 									metaModelsService,
 									$mdToast,
 									MODELS,
 									EcoreDecoratorsRepoService,
-									ECORE_DECORATOR) {
+									ECORE_DECORATOR,
+									ECORE_TYPES) {
 		var self = this;
 
 		/**
@@ -34,6 +36,7 @@
 		 */
 		self.onRootElementSelected = __onRootElementSelected;
 		self.export = _export;
+		self.store = _store;
 
 		init();
 
@@ -105,6 +108,7 @@
 									self.metaModelRootPackages = model.get('contents').map(function (c) {
 										return c;
 									});
+
 									self.metaModel = model;
 									__onMetaModelLoaded();
 								}
@@ -135,14 +139,65 @@
 		}
 
 		function __onMetaModelLoaded() {
-
-
 			angular.forEach(self.metaModelRootPackages, function (item) {
 				EcoreDecoratorsRepoService
 					.getDecorator(ECORE_DECORATOR.TREE_DECORATORS_PREFIX + item.eClass.values.name)
 					.decorate(item);
 			})
+
+			if ($stateParams.modelId != null) {
+				__loadModel($stateParams.modelId);
+			} else {
+				__initNewModel();
+			}
+		}
+
+
+		function __initNewModel() {
+			ActualUserService.getUser().then(function (user) {
+				self.artifact = {
+					name: 'aModel',
+					metamodel: self.metaModelMetaData,
+					author: user
+				}
+			})
 			self.loading = false;
+		}
+
+
+		function __loadModel(id) {
+			modelsService.loadById(id).then(function (model) {
+				self.artifact = model;
+				self.rootElement = loadPlainElement(model.model);
+				self.selectedElement = self.rootElement;
+			})
+		}
+
+		function loadPlainElement(element) {
+			var classes = EcoreDecoratorsRepoService.getElements(ECORE_TYPES.EClass);
+			var clazz = classes [element._class];
+			var instance = undefined;
+			if (angular.isDefined(clazz))
+				instance = clazz.create(element);
+
+			angular.forEach(element, function (item, key) {
+				if (item != null)
+					if (angular.isDefined(item._class)) {
+						instance.values[key] = loadPlainElement(item);
+					} else {
+						if (angular.isArray(item)) {
+							angular.forEach(item, function (sub_item) {
+								if (angular.isDefined(sub_item._class)) {
+									var subInstance = loadPlainElement(sub_item)
+									instance.values[key].add(subInstance);
+								}
+							})
+						}
+					}
+			})
+
+			return instance;
+
 		}
 
 		function __onRootElementSelected(element) {
@@ -155,9 +210,13 @@
 			self.selectedElement = self.rootElement;
 		}
 
+
 		function getPlainModel(element) {
 			if (element != null) {
-				var plainElement = {}
+				var plainElement = {
+					//_class: element.eClass.values.name
+					_class: element.eClass.eURI()
+				}
 
 				var attributes = element.eClass.get('eAllAttributes').map(function (c) {
 					var attr = c.values;
@@ -209,6 +268,16 @@
 			element.click();
 
 			document.body.removeChild(element);
+		}
+
+		function _store() {
+			self.artifact.model = getPlainModel(self.rootElement);
+
+
+			modelsService.store(self.artifact).then(function (data) {
+				self.artifact = data;
+				$stateParams.modelId = data.id;
+			});
 		}
 
 

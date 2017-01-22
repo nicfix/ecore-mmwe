@@ -2,21 +2,19 @@
 	<ng-md-icon icon="description"></ng-md-icon>
 	&nbsp;
 	<md-subheader>
-		{{ctrl.model.name}}
-	</md-subheader>
-	<md-subheader>
-		Conforms to: {{ctrl.metaModelMetaData.name}}
+		{{ctrl.artifact.name}}, compliant with <a> {{ctrl.metaModelMetaData.name}} </a> metamodel
 	</md-subheader>
 	<span flex></span>
-	<!--md-button class="md-fab md-mini"
-
+	<md-button class="md-fab md-mini" ng-if="ctrl.artifact"
+			   ng-click="ctrl.store()"
 			   ng-disabled>
 		<ng-md-icon icon="save"></ng-md-icon>
 	</md-button>
-	<md-button class="md-fab md-mini"
+	<md-button class="md-fab md-mini" ng-if="ctrl.artifact"
+			   ng-click="ctrl.destroy()"
 			   ng-disabled>
 		<ng-md-icon icon="delete"></ng-md-icon>
-	</md-button-->
+	</md-button>
 	<md-button class="md-fab md-mini"
 			   ng-if="ctrl.rootElement"
 			   ng-click="ctrl.export()">
@@ -62,8 +60,7 @@
 					<ecore-instance-properties-editor ng-if="ctrl.selectedElement"
 													  meta-model="ctrl.metaModel"
 													  root-ecore-element="ctrl.rootElement"
-													  ecore-element="ctrl.selectedElement"
-					>
+													  ecore-element="ctrl.selectedElement">
 
 					</ecore-instance-properties-editor>
 				</md-content>
