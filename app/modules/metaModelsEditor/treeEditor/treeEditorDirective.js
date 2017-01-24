@@ -50,6 +50,8 @@
 
 		self.ECORE_TYPE_ICONS[ECORE_TYPES.EReference] = 'swap_horiz';
 
+		self.ECORE_TYPE_ICONS[ECORE_TYPES.EDataType] = 'text_format';
+
 		self.ECORE_TYPES = ECORE_TYPES;
 
 		self.treeOptions = {
